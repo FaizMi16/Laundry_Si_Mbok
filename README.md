@@ -6,7 +6,7 @@ Aplikasi mobile layanan laundry berbasis **React Native (Expo)**. Proyek ini han
 |---|---|
 | **Kelompok** | Kelompok 4 |
 | **Project Manager** | Faiz Muzaki Irsyad (2488010047) |
-| **Anggota** | .... () |
+| **Anggota** | Tanu Hasyim (2488010011) |
 | **Mata Kuliah** | Pemrograman Mobile |
 | **Dosen Pengampu** | M.Firdaus |
 | **Tanggal** | 18 Oktober 2026 |
