@@ -218,7 +218,6 @@ navigation.navigate('Pesanan');                               // pindah tab
 > **📸 SCREENSHOT 1: Splash Screen**
 > - **Buka:** jalankan ulang aplikasi (tekan `r` di terminal Expo).
 > - **Ambil:** layar Splash dengan logo dan teks "Laundry Si Mbok" (logo tampil penuh setelah animasi selesai, sekitar 1 detik pertama).
-> - **Simpan sebagai:** `docs/screenshots/01-splash.png`
 
 ![Splash Screen](docs/screenshots/01-splash.png)
 
@@ -227,7 +226,6 @@ navigation.navigate('Pesanan');                               // pindah tab
 > **📸 SCREENSHOT 2: Onboarding**
 > - **Buka:** setelah Splash, otomatis masuk Onboarding.
 > - **Ambil:** slide pertama (judul, gambar, titik indikator, tombol "Lanjut"). Jika ingin lebih lengkap, ambil ketiga slide dan gabungkan berdampingan.
-> - **Simpan sebagai:** `docs/screenshots/02-onboarding.png`
 
 ![Onboarding](docs/screenshots/02-onboarding.png)
 
@@ -236,7 +234,6 @@ navigation.navigate('Pesanan');                               // pindah tab
 > **📸 SCREENSHOT 3: Login dan Register**
 > - **Buka:** tekan "Mulai sekarang" di Onboarding untuk ke Login. Tekan "Daftar" untuk ke Register.
 > - **Ambil:** satu screenshot Login dan satu Register. Gabungkan berdampingan jadi satu gambar.
-> - **Simpan sebagai:** `docs/screenshots/03-login-register.png`
 
 ![Login dan Register](docs/screenshots/03-login-register.png)
 
@@ -245,7 +242,6 @@ navigation.navigate('Pesanan');                               // pindah tab
 > **📸 SCREENSHOT 4: Bottom Tab (4 menu)**
 > - **Buka:** login (isi email valid dan sandi minimal 8 karakter, lalu tekan Masuk), lalu buka tab Beranda, Pesanan, Riwayat, dan Profil satu per satu.
 > - **Ambil:** satu screenshot per tab, dengan **bar tab di bawah terlihat jelas**. Gabungkan 4 gambar dalam satu baris.
-> - **Simpan sebagai:** `docs/screenshots/04-bottom-tabs.png`
 
 ![Bottom Tab](docs/screenshots/04-bottom-tabs.png)
 
@@ -254,7 +250,6 @@ navigation.navigate('Pesanan');                               // pindah tab
 > **📸 SCREENSHOT 5: Form Pesanan dan Detail Pesanan**
 > - **Buka:** dari Beranda tekan tombol **+** (atau salah satu kartu layanan) untuk Form Pesanan. Lalu kembali dan tekan kartu pesanan aktif untuk Detail Pesanan.
 > - **Ambil:** satu screenshot masing-masing, gabungkan berdampingan.
-> - **Simpan sebagai:** `docs/screenshots/05-form-detail.png`
 
 ![Form dan Detail](docs/screenshots/05-form-detail.png)
 
@@ -333,7 +328,6 @@ const { width } = useWindowDimensions();
 > - **Buka:** jika memakai browser, tekan `F12`, aktifkan **Toggle device toolbar** (`Ctrl+Shift+M`), lalu pilih perangkat berbeda.
 > - **Ambil:** screenshot **Beranda** dan **Form Pesanan** pada **dua ukuran**: layar kecil (contoh: *iPhone SE*) dan layar besar (contoh: *iPhone 14 Pro Max*). Totalnya 4 gambar, susun dalam 2 baris.
 > - **Pastikan terlihat:** grid layanan tetap 2 kolom, tidak ada teks terpotong, tombol "Pesan sekarang" tetap terlihat.
-> - **Simpan sebagai:** `docs/screenshots/06-responsif.png`
 
 ![Perbandingan Responsif](docs/screenshots/06-responsif.png)
 
@@ -342,7 +336,6 @@ const { width } = useWindowDimensions();
 > **📸 SCREENSHOT 7: Kartu pesanan tanpa tumpang tindih**
 > - **Buka:** tab **Pesanan**.
 > - **Ambil:** daftar kartu pesanan yang menampilkan nama layanan, ID, status badge, progress bar, dan total harga, tanpa ada yang saling menimpa.
-> - **Simpan sebagai:** `docs/screenshots/07-kartu-pesanan.png`
 
 ![Kartu Pesanan](docs/screenshots/07-kartu-pesanan.png)
 
@@ -420,7 +413,6 @@ export default function OrderCard({ order, onPress }) {
 >   2. **OrderCard** di tab **Pesanan**.
 >   3. **OrderCard** di tab **Riwayat**.
 > - **Tambahkan keterangan** pada gambar atau di bawahnya: "Komponen `OrderCard` yang sama".
-> - **Simpan sebagai:** `docs/screenshots/08-reuse-ordercard.png`
 
 ![Reuse OrderCard](docs/screenshots/08-reuse-ordercard.png)
 
@@ -428,7 +420,6 @@ export default function OrderCard({ order, onPress }) {
 
 > **📸 SCREENSHOT 9: Variasi props pada Button**
 > - **Ambil:** tiga tampilan tombol: `primary` (tombol "Masuk" di Login), `hero` (tombol "Lanjut" di Onboarding), dan `outline` (tombol "Buat pesanan" di tab Pesanan saat kosong). Jika varian `outline` sulit ditampilkan, cukup dua varian pertama.
-> - **Simpan sebagai:** `docs/screenshots/09-variasi-button.png`
 
 ![Variasi Button](docs/screenshots/09-variasi-button.png)
 
@@ -484,7 +475,6 @@ const order = route.params?.order || ACTIVE_ORDERS[0];
 > **📸 SCREENSHOT 10: Daftar Pesanan lalu Detail**
 > - **Buka:** tab **Pesanan**, ambil screenshot daftar. Tekan salah satu kartu, lalu ambil screenshot **Detail Pesanan** (tampilkan timeline status).
 > - **Gabungkan** berdampingan: daftar di kiri, detail di kanan, agar terlihat alurnya.
-> - **Simpan sebagai:** `docs/screenshots/10-list-ke-detail.png`
 
 ![List ke Detail](docs/screenshots/10-list-ke-detail.png)
 
@@ -493,7 +483,6 @@ const order = route.params?.order || ACTIVE_ORDERS[0];
 > **📸 SCREENSHOT 11: Daftar Riwayat**
 > - **Buka:** tab **Riwayat**.
 > - **Ambil:** daftar tiga pesanan berstatus "Selesai".
-> - **Simpan sebagai:** `docs/screenshots/11-riwayat.png`
 
 ![Riwayat](docs/screenshots/11-riwayat.png)
 
@@ -573,7 +562,6 @@ if (methodId === 'jemput' && address.trim().length < 10) {
 > **📸 SCREENSHOT 12: State Focus**
 > - **Buka:** screen **Login**, tekan (klik) salah satu kolom, misalnya Email, tanpa mengetik.
 > - **Ambil:** kolom yang sedang fokus (border biru) berdampingan dengan kolom lain yang normal.
-> - **Simpan sebagai:** `docs/screenshots/12-input-focus.png`
 
 ![Input Focus](docs/screenshots/12-input-focus.png)
 
@@ -582,7 +570,6 @@ if (methodId === 'jemput' && address.trim().length < 10) {
 > **📸 SCREENSHOT 13: State Error (Login)**
 > - **Buka:** screen **Login**, biarkan kosong, lalu tekan **Masuk**.
 > - **Ambil:** kedua kolom dengan border merah dan pesan error di bawahnya.
-> - **Simpan sebagai:** `docs/screenshots/13-login-error.png`
 
 ![Login Error](docs/screenshots/13-login-error.png)
 
@@ -591,7 +578,6 @@ if (methodId === 'jemput' && address.trim().length < 10) {
 > **📸 SCREENSHOT 14: Form Register lengkap dengan error**
 > - **Buka:** screen **Register**, isi sebagian dengan data salah (contoh: nomor HP `123`, sandi dan konfirmasi berbeda), centang dibiarkan kosong, lalu tekan **Daftar**.
 > - **Ambil:** seluruh form (gunakan 2 screenshot atas dan bawah jika panjang) yang menampilkan label, placeholder, dan pesan error.
-> - **Simpan sebagai:** `docs/screenshots/14-register-error.png`
 
 ![Register Error](docs/screenshots/14-register-error.png)
 
@@ -600,7 +586,6 @@ if (methodId === 'jemput' && address.trim().length < 10) {
 > **📸 SCREENSHOT 15: Form Pesanan**
 > - **Buka:** **Form Pesanan** (tombol **+** di Beranda). Pilih "Jemput & antar", kosongkan alamat, lalu tekan **Pesan sekarang**.
 > - **Ambil:** bagian "Alamat penjemputan" yang menampilkan error, bersama pilihan layanan dan jadwal di atasnya.
-> - **Simpan sebagai:** `docs/screenshots/15-form-pesanan.png`
 
 ![Form Pesanan](docs/screenshots/15-form-pesanan.png)
 
@@ -675,7 +660,6 @@ import { Ionicons } from '@expo/vector-icons';
 > **📸 SCREENSHOT 16: Beranda (gambaran konsistensi desain)**
 > - **Buka:** tab **Beranda**.
 > - **Ambil:** satu layar penuh yang menampilkan header gradient, kartu layanan beserta ikon, banner promo bergambar, dan kartu pesanan.
-> - **Simpan sebagai:** `docs/screenshots/16-beranda.png`
 
 ![Beranda](docs/screenshots/16-beranda.png)
 
@@ -684,7 +668,6 @@ import { Ionicons } from '@expo/vector-icons';
 > **📸 SCREENSHOT 17: Profil**
 > - **Buka:** tab **Profil**.
 > - **Ambil:** layar penuh (kartu pengguna, daftar menu berikon, tombol Keluar).
-> - **Simpan sebagai:** `docs/screenshots/17-profil.png`
 
 ![Profil](docs/screenshots/17-profil.png)
 
@@ -692,7 +675,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 > **📸 SCREENSHOT 18: Palet warna dan font (opsional, nilai plus)**
 > - **Buat:** tabel atau potongan gambar kecil berisi warna utama (biru `#2563EB`, biru tua `#1E3A8A`, aqua `#22D3EE`) dan contoh teks Plus Jakarta Sans. Bisa dibuat di Canva atau PowerPoint.
-> - **Simpan sebagai:** `docs/screenshots/18-palet-font.png`
 
 ![Palet dan Font](docs/screenshots/18-palet-font.png)
 
@@ -737,7 +719,6 @@ useEffect(() => {
 > - **Buka:** jalankan ulang aplikasi.
 > - **Ambil:** **2 sampai 3 tangkapan layar berurutan** saat animasi berjalan (logo kecil dan samar, logo setengah membesar, logo penuh dengan teks). Susun berdampingan dengan keterangan "awal, tengah, akhir".
 > - **Alternatif:** rekam layar lalu ubah ke GIF, atau lampirkan tautan video.
-> - **Simpan sebagai:** `docs/screenshots/19-animasi-splash.png`
 
 ![Animasi Splash](docs/screenshots/19-animasi-splash.png)
 
@@ -839,7 +820,6 @@ const navTheme = {
 > **📸 SCREENSHOT 20: Tombol Mode Gelap di Profil**
 > - **Buka:** tab **Profil**, lihat baris **Mode gelap** di bagian bawah daftar menu.
 > - **Ambil:** dua gambar berdampingan: saat switch **mati** (terang) dan saat **menyala** (gelap).
-> - **Simpan sebagai:** `docs/screenshots/20-toggle-darkmode.png`
 
 ![Toggle Dark Mode](docs/screenshots/20-toggle-darkmode.png)
 
@@ -847,7 +827,6 @@ const navTheme = {
 
 > **📸 SCREENSHOT 21: Perbandingan Terang vs Gelap**
 > - **Ambil:** minimal **Beranda**, **Pesanan**, dan **Form Pesanan** (atau Login), masing-masing dalam mode terang dan gelap. Susun jadi 2 baris (atas: terang, bawah: gelap).
-> - **Simpan sebagai:** `docs/screenshots/21-terang-vs-gelap.png`
 
 ![Terang vs Gelap](docs/screenshots/21-terang-vs-gelap.png)
 
@@ -856,7 +835,6 @@ const navTheme = {
 > **📸 SCREENSHOT 22: Onboarding dalam mode gelap**
 > - **Buka:** aktifkan mode gelap, lalu logout dari Profil dan buka ulang aplikasi, atau ubah tema sistem browser/HP menjadi gelap.
 > - **Ambil:** layar Onboarding (latar gradient berubah menjadi navy gelap, tombol menjadi biru terang).
-> - **Simpan sebagai:** `docs/screenshots/22-onboarding-dark.png`
 
 ![Onboarding Dark](docs/screenshots/22-onboarding-dark.png)
 
