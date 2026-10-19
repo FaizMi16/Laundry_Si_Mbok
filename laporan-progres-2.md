@@ -87,4 +87,8 @@ Demikian draf notulensi hasil wawancara dengan pemilik UMKM Laundry Si Mbok ini 
 
 ## 7. Dokumentasi
 
+Dokumentasi Wawancara
 ![image](dokumentasi/wawancara.jpeg)
+
+Dokumentasi Proyek
+[Link Dokumentasi](https://drive.google.com/drive/folders/12k3IGj147Bej6HqmB9Fkl5lguhRy7bxz)
