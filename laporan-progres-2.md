@@ -102,3 +102,5 @@ Dokumentasi Proyek
 ![Halaman Utamma](dokumentasi/4halamanuatama.jpg)
 ![Halaman Pesanan](dokumentasi/5_Pesanan.png)
 ![Detail Pesanan](dokumentasi/5_DetailPesanan.png)
+![Halaman Riwayat Pesanan](dokumentasi/6_RiwayatPesanan.png)
+![Detail Riwayat Pesanan](dokumentasi/6_DetailRiwayatPesanan.png)
