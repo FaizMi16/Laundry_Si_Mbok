@@ -1,5 +1,12 @@
 # Notulensi Hasil Wawancara
 
+## Anggota Kelompok
+
+1. Faiz Muzaki Irsyad
+2. Tanu Hasyim
+3. Nayla Rahman Farhanah
+4. Mohammad Satria Dinilhaq
+
 ## Profil UMKM
 
 1. **Nama UMKM:** Laundry Si Mbok
