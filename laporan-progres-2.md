@@ -100,3 +100,5 @@ Dokumentasi Proyek
 ![Login dan Register](dokumentasi/3login.jpg)
 ![Login dan Register](dokumentasi/3register.jpg)
 ![Halaman Utamma](dokumentasi/4halamanuatama.jpg)
+![Halaman Pesanan](dokumentasi/5_Pesanan.png)
+![Detail Pesanan](dokumentasi/5_DetailPesanan.png)
