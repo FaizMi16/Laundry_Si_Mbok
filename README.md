@@ -2,14 +2,15 @@
 
 Aplikasi mobile layanan laundry berbasis **React Native (Expo)**. Proyek ini hanya mencakup **antarmuka (UI)** dengan data dummy, tanpa backend dan tanpa penyimpanan data.
 
-| | |
-|---|---|
-| **Kelompok** | Kelompok 4 |
-| **Project Manager** | Faiz Muzaki Irsyad (2488010047) |
-| **Anggota** | Tanu Hasyim (2488010011) |
-| **Mata Kuliah** | Pemrograman Mobile |
-| **Dosen Pengampu** | M.Firdaus |
-| **Tanggal** | 18 Oktober 2026 |
+|                     |                                       |
+| ------------------- | ------------------------------------- |
+| **Kelompok**        | Kelompok 4                            |
+| **Project Manager** | Faiz Muzaki Irsyad (2488010047)       |
+| **Anggota**         | Tanu Hasyim (2488010011)              |
+| **Anggota**         | Mohammad Satria Dinilhaq (2488010064) |
+| **Mata Kuliah**     | Pemrograman Mobile                    |
+| **Dosen Pengampu**  | M.Firdaus                             |
+| **Tanggal**         | 18 Oktober 2026                       |
 
 ---
 
@@ -34,16 +35,16 @@ Aplikasi mobile layanan laundry berbasis **React Native (Expo)**. Proyek ini han
 
 ## 1. Ringkasan Pemenuhan Ketentuan
 
-| No | Ketentuan | Status | Bukti Implementasi |
-|---|---|---|---|
-| 1 | Navigasi multi-screen (min. 5 screen, stack dan/atau tab) | Terpenuhi | 10 screen; Stack Navigator + Bottom Tab Navigator |
-| 2 | Layout responsif (Flexbox, tidak terpotong/tumpang tindih) | Terpenuhi | Seluruh layar memakai Flexbox, safe area, dan `useWindowDimensions` |
-| 3 | Komponen reusable (min. 3, menerima props) | Terpenuhi | 6 komponen: Button, Input, Chip, ScreenHeader, OrderCard, StatusBadge |
-| 4 | Daftar/list (FlatList, item dapat ditekan menuju detail) | Terpenuhi | Pesanan dan Riwayat memakai `FlatList` menuju Detail Pesanan |
-| 5 | Form UI (label, placeholder, focus/error) | Terpenuhi | Login, Register, dan Form Pesanan |
-| 6 | Konsistensi desain (palet, tipografi, spacing, ikon, gambar) | Terpenuhi | `theme.js`, font Plus Jakarta Sans, Ionicons, aset gambar |
-| + | Animasi dasar (opsional) | Terpenuhi | Animasi logo di Splash (`Animated` API) |
-| + | Mode gelap (opsional) | Terpenuhi | `ThemeProvider` + toggle di tab Profil |
+| No  | Ketentuan                                                    | Status    | Bukti Implementasi                                                    |
+| --- | ------------------------------------------------------------ | --------- | --------------------------------------------------------------------- |
+| 1   | Navigasi multi-screen (min. 5 screen, stack dan/atau tab)    | Terpenuhi | 10 screen; Stack Navigator + Bottom Tab Navigator                     |
+| 2   | Layout responsif (Flexbox, tidak terpotong/tumpang tindih)   | Terpenuhi | Seluruh layar memakai Flexbox, safe area, dan `useWindowDimensions`   |
+| 3   | Komponen reusable (min. 3, menerima props)                   | Terpenuhi | 6 komponen: Button, Input, Chip, ScreenHeader, OrderCard, StatusBadge |
+| 4   | Daftar/list (FlatList, item dapat ditekan menuju detail)     | Terpenuhi | Pesanan dan Riwayat memakai `FlatList` menuju Detail Pesanan          |
+| 5   | Form UI (label, placeholder, focus/error)                    | Terpenuhi | Login, Register, dan Form Pesanan                                     |
+| 6   | Konsistensi desain (palet, tipografi, spacing, ikon, gambar) | Terpenuhi | `theme.js`, font Plus Jakarta Sans, Ionicons, aset gambar             |
+| +   | Animasi dasar (opsional)                                     | Terpenuhi | Animasi logo di Splash (`Animated` API)                               |
+| +   | Mode gelap (opsional)                                        | Terpenuhi | `ThemeProvider` + toggle di tab Profil                                |
 
 ---
 
@@ -51,15 +52,15 @@ Aplikasi mobile layanan laundry berbasis **React Native (Expo)**. Proyek ini han
 
 ### Teknologi
 
-| Kebutuhan | Library |
-|---|---|
-| Framework | React Native + Expo |
-| Navigasi | `@react-navigation/native`, `native-stack`, `bottom-tabs` |
-| Ikon | `@expo/vector-icons` (Ionicons) |
-| Gradient | `expo-linear-gradient` |
-| Font | Plus Jakarta Sans (`@expo-google-fonts/plus-jakarta-sans`) |
-| Safe area | `react-native-safe-area-context`, `react-native-screens` |
-| Animasi | `Animated` API bawaan React Native |
+| Kebutuhan | Library                                                    |
+| --------- | ---------------------------------------------------------- |
+| Framework | React Native + Expo                                        |
+| Navigasi  | `@react-navigation/native`, `native-stack`, `bottom-tabs`  |
+| Ikon      | `@expo/vector-icons` (Ionicons)                            |
+| Gradient  | `expo-linear-gradient`                                     |
+| Font      | Plus Jakarta Sans (`@expo-google-fonts/plus-jakarta-sans`) |
+| Safe area | `react-native-safe-area-context`, `react-native-screens`   |
+| Animasi   | `Animated` API bawaan React Native                         |
 
 ### Instalasi
 
@@ -130,18 +131,18 @@ Tekan `a` (Android), `i` (iOS), atau `w` (browser). Atau pindai QR code dengan a
 - **Stack Navigator** (`RootNavigator.js`) untuk alur masuk (Splash, Onboarding, Login, Register) dan layar di luar tab (Pemesanan, DetailPesanan).
 - **Bottom Tab Navigator** (`MainTabs.js`) untuk 4 menu utama: Beranda, Pesanan, Riwayat, Profil.
 
-| No | Screen | File | Navigator |
-|---|---|---|---|
-| 1 | Splash | `SplashScreen.js` | Stack |
-| 2 | Onboarding | `OnboardingScreen.js` | Stack |
-| 3 | Login | `LoginScreen.js` | Stack |
-| 4 | Register | `RegisterScreen.js` | Stack |
-| 5 | Beranda (Home) | `HomeScreen.js` | Tab |
-| 6 | Pesanan (Daftar) | `OrdersScreen.js` | Tab |
-| 7 | Riwayat (Daftar) | `HistoryScreen.js` | Tab |
-| 8 | Profil | `ProfileScreen.js` | Tab |
-| 9 | Pemesanan (Form) | `OrderFormScreen.js` | Stack |
-| 10 | Detail Pesanan | `OrderDetailScreen.js` | Stack |
+| No  | Screen           | File                   | Navigator |
+| --- | ---------------- | ---------------------- | --------- |
+| 1   | Splash           | `SplashScreen.js`      | Stack     |
+| 2   | Onboarding       | `OnboardingScreen.js`  | Stack     |
+| 3   | Login            | `LoginScreen.js`       | Stack     |
+| 4   | Register         | `RegisterScreen.js`    | Stack     |
+| 5   | Beranda (Home)   | `HomeScreen.js`        | Tab       |
+| 6   | Pesanan (Daftar) | `OrdersScreen.js`      | Tab       |
+| 7   | Riwayat (Daftar) | `HistoryScreen.js`     | Tab       |
+| 8   | Profil           | `ProfileScreen.js`     | Tab       |
+| 9   | Pemesanan (Form) | `OrderFormScreen.js`   | Stack     |
+| 10  | Detail Pesanan   | `OrderDetailScreen.js` | Stack     |
 
 **Alur navigasi:**
 
@@ -168,11 +169,15 @@ Stack (RootNavigator)
   initialRouteName="Splash"
   screenOptions={{
     headerShown: false,
-    animation: 'slide_from_right',
+    animation: "slide_from_right",
     contentStyle: { backgroundColor: COLORS.background },
   }}
 >
-  <Stack.Screen name="Splash" component={SplashScreen} options={{ animation: 'fade' }} />
+  <Stack.Screen
+    name="Splash"
+    component={SplashScreen}
+    options={{ animation: "fade" }}
+  />
   <Stack.Screen name="Onboarding" component={OnboardingScreen} />
   <Stack.Screen name="Login" component={LoginScreen} />
   <Stack.Screen name="Register" component={RegisterScreen} />
@@ -186,30 +191,36 @@ Stack (RootNavigator)
 
 ```js
 const ICONS = {
-  Beranda: ['home', 'home-outline'],
-  Pesanan: ['receipt', 'receipt-outline'],
-  Riwayat: ['time', 'time-outline'],
-  Profil: ['person', 'person-outline'],
+  Beranda: ["home", "home-outline"],
+  Pesanan: ["receipt", "receipt-outline"],
+  Riwayat: ["time", "time-outline"],
+  Profil: ["person", "person-outline"],
 };
 
-<Tab.Navigator screenOptions={({ route }) => ({
-  tabBarIcon: ({ focused, color }) => (
-    <Ionicons name={ICONS[route.name][focused ? 0 : 1]} size={22} color={color} />
-  ),
-})}>
+<Tab.Navigator
+  screenOptions={({ route }) => ({
+    tabBarIcon: ({ focused, color }) => (
+      <Ionicons
+        name={ICONS[route.name][focused ? 0 : 1]}
+        size={22}
+        color={color}
+      />
+    ),
+  })}
+>
   <Tab.Screen name="Beranda" component={HomeScreen} />
   <Tab.Screen name="Pesanan" component={OrdersScreen} />
   <Tab.Screen name="Riwayat" component={HistoryScreen} />
   <Tab.Screen name="Profil" component={ProfileScreen} />
-</Tab.Navigator>
+</Tab.Navigator>;
 ```
 
 **Contoh perpindahan antar screen** (dari `HomeScreen.js`):
 
 ```js
-navigation.navigate('Pemesanan', { serviceId: s.id });        // ke Form Pesanan + kirim parameter
-navigation.navigate('DetailPesanan', { order: o });           // ke Detail + kirim data pesanan
-navigation.navigate('Pesanan');                               // pindah tab
+navigation.navigate("Pemesanan", { serviceId: s.id }); // ke Form Pesanan + kirim parameter
+navigation.navigate("DetailPesanan", { order: o }); // ke Detail + kirim data pesanan
+navigation.navigate("Pesanan"); // pindah tab
 ```
 
 ---
@@ -261,8 +272,14 @@ tabBarStyle: {
 **File:** `src/screens/OrderFormScreen.js`. Form yang tidak tertutup keyboard, dengan tombol aksi tetap di bawah.
 
 ```js
-<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-  <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+<KeyboardAvoidingView
+  style={{ flex: 1 }}
+  behavior={Platform.OS === "ios" ? "padding" : undefined}
+>
+  <ScrollView
+    contentContainerStyle={styles.content}
+    keyboardShouldPersistTaps="handled"
+  >
     {/* isi form */}
   </ScrollView>
   <View style={styles.bottomBar}>
@@ -287,21 +304,27 @@ const { width } = useWindowDimensions();
 
 **Implementasi:** terdapat **6 komponen** di `src/components/`, semuanya menerima props.
 
-| Komponen | Props | Dipakai di |
-|---|---|---|
-| `Button` | `title`, `onPress`, `icon`, `variant` (`primary` / `outline` / `hero`), `style` | Login, Register, Pesanan (kondisi kosong), Form Pesanan, Onboarding |
-| `Input` | `label`, `icon`, `secure`, `multiline`, `error`, `style`, serta semua props `TextInput` | Login, Register, Form Pesanan |
-| `Chip` | `label`, `active`, `onPress` | Form Pesanan (pilihan tanggal dan jam) |
-| `ScreenHeader` | `title`, `onBack` | Pesanan, Riwayat, Profil, Register, Form Pesanan, Detail Pesanan |
-| `OrderCard` | `order`, `onPress` | Beranda, Pesanan, Riwayat |
-| `StatusBadge` | `step` | OrderCard, Detail Pesanan |
+| Komponen       | Props                                                                                   | Dipakai di                                                          |
+| -------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `Button`       | `title`, `onPress`, `icon`, `variant` (`primary` / `outline` / `hero`), `style`         | Login, Register, Pesanan (kondisi kosong), Form Pesanan, Onboarding |
+| `Input`        | `label`, `icon`, `secure`, `multiline`, `error`, `style`, serta semua props `TextInput` | Login, Register, Form Pesanan                                       |
+| `Chip`         | `label`, `active`, `onPress`                                                            | Form Pesanan (pilihan tanggal dan jam)                              |
+| `ScreenHeader` | `title`, `onBack`                                                                       | Pesanan, Riwayat, Profil, Register, Form Pesanan, Detail Pesanan    |
+| `OrderCard`    | `order`, `onPress`                                                                      | Beranda, Pesanan, Riwayat                                           |
+| `StatusBadge`  | `step`                                                                                  | OrderCard, Detail Pesanan                                           |
 
 #### Dokumentasi Kode
 
 **File:** `src/components/Button.js`. Satu komponen, tiga tampilan lewat prop `variant`.
 
 ```js
-export default function Button({ title, onPress, icon, variant = 'primary', style }) {
+export default function Button({
+  title,
+  onPress,
+  icon,
+  variant = "primary",
+  style,
+}) {
   // variant: 'primary' (gradient), 'outline' (garis), 'hero' (pil solid untuk latar berwarna)
 }
 ```
@@ -317,7 +340,17 @@ Contoh pemakaian:
 **File:** `src/components/Input.js`. Menerima semua props `TextInput` lewat `...props`.
 
 ```js
-export default function Input({ label, icon, secure, multiline, error, style, onFocus, onBlur, ...props }) {
+export default function Input({
+  label,
+  icon,
+  secure,
+  multiline,
+  error,
+  style,
+  onFocus,
+  onBlur,
+  ...props
+}) {
   // ...
 }
 ```
@@ -327,7 +360,10 @@ export default function Input({ label, icon, secure, multiline, error, style, on
 ```js
 export default function Chip({ label, active, onPress }) {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.chip, active && styles.chipOn]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.chip, active && styles.chipOn]}
+    >
       <Text style={[styles.text, active && styles.textOn]}>{label}</Text>
     </TouchableOpacity>
   );
@@ -357,11 +393,29 @@ export default function OrderCard({ order, onPress }) {
 
 ```js
 export const ACTIVE_ORDERS = [
-  { id: 'LSM-1018', service: 'Cuci + Setrika', amount: '4 kg', total: 41000, step: 2, date: '18 Okt 2026', method: 'Jemput & antar' },
-  { id: 'LSM-1017', service: 'Satuan', amount: '2 pcs', total: 35000, step: 1, date: '18 Okt 2026', method: 'Jemput & antar' },
+  {
+    id: "LSM-1018",
+    service: "Cuci + Setrika",
+    amount: "4 kg",
+    total: 41000,
+    step: 2,
+    date: "18 Okt 2026",
+    method: "Jemput & antar",
+  },
+  {
+    id: "LSM-1017",
+    service: "Satuan",
+    amount: "2 pcs",
+    total: 35000,
+    step: 1,
+    date: "18 Okt 2026",
+    method: "Jemput & antar",
+  },
 ];
 
-export const HISTORY_ORDERS = [ /* 3 pesanan berstatus selesai */ ];
+export const HISTORY_ORDERS = [
+  /* 3 pesanan berstatus selesai */
+];
 ```
 
 **File:** `src/screens/OrdersScreen.js`. FlatList dengan item yang menuju Detail.
@@ -396,11 +450,11 @@ const order = route.params?.order || ACTIVE_ORDERS[0];
 
 **Implementasi:** terdapat **3 screen berisi form**: Login, Register, dan Form Pesanan. Komponen `Input` memiliki tiga state visual:
 
-| State | Tampilan |
-|---|---|
-| Normal | Border abu-abu, latar `surface` |
-| Focus | Border dan ikon biru, latar biru muda |
-| Error | Border merah, latar merah muda, ikon peringatan, dan pesan di bawah field |
+| State  | Tampilan                                                                  |
+| ------ | ------------------------------------------------------------------------- |
+| Normal | Border abu-abu, latar `surface`                                           |
+| Focus  | Border dan ikon biru, latar biru muda                                     |
+| Error  | Border merah, latar merah muda, ikon peringatan, dan pesan di bawah field |
 
 Validasi dijalankan saat tombol ditekan (tanpa penyimpanan data). Pesan error hilang otomatis saat pengguna mulai mengetik.
 
@@ -410,17 +464,30 @@ Validasi dijalankan saat tombol ditekan (tanpa penyimpanan data). Pesan error hi
 
 ```js
 const hasError = !!error;
-const iconColor = hasError ? COLORS.danger : focused ? COLORS.primary : COLORS.muted;
+const iconColor = hasError
+  ? COLORS.danger
+  : focused
+    ? COLORS.primary
+    : COLORS.muted;
 
-<View style={[styles.box, multiline && styles.boxMulti, focused && styles.boxFocused, hasError && styles.boxError]}>
+<View
+  style={[
+    styles.box,
+    multiline && styles.boxMulti,
+    focused && styles.boxFocused,
+    hasError && styles.boxError,
+  ]}
+>
   {/* ikon + TextInput */}
-</View>
-{hasError ? (
-  <View style={styles.errorRow}>
-    <Ionicons name="alert-circle" size={14} color={COLORS.danger} />
-    <Text style={styles.errorText}>{error}</Text>
-  </View>
-) : null}
+</View>;
+{
+  hasError ? (
+    <View style={styles.errorRow}>
+      <Ionicons name="alert-circle" size={14} color={COLORS.danger} />
+      <Text style={styles.errorText}>{error}</Text>
+    </View>
+  ) : null;
+}
 ```
 
 **File:** `src/screens/LoginScreen.js`. Validasi form.
@@ -428,12 +495,12 @@ const iconColor = hasError ? COLORS.danger : focused ? COLORS.primary : COLORS.m
 ```js
 const submit = () => {
   const e = {};
-  if (!email.trim()) e.email = 'Email wajib diisi';
-  else if (!/^\S+@\S+\.\S+$/.test(email)) e.email = 'Format email tidak valid';
-  if (!password) e.password = 'Kata sandi wajib diisi';
-  else if (password.length < 8) e.password = 'Minimal 8 karakter';
+  if (!email.trim()) e.email = "Email wajib diisi";
+  else if (!/^\S+@\S+\.\S+$/.test(email)) e.email = "Format email tidak valid";
+  if (!password) e.password = "Kata sandi wajib diisi";
+  else if (password.length < 8) e.password = "Minimal 8 karakter";
   setErrors(e);
-  if (Object.keys(e).length === 0) navigation.replace('MainTabs');
+  if (Object.keys(e).length === 0) navigation.replace("MainTabs");
 };
 
 <Input
@@ -441,9 +508,12 @@ const submit = () => {
   icon="mail-outline"
   placeholder="nama@email.com"
   value={email}
-  onChangeText={(t) => { setEmail(t); setErrors((x) => ({ ...x, email: undefined })); }}
+  onChangeText={(t) => {
+    setEmail(t);
+    setErrors((x) => ({ ...x, email: undefined }));
+  }}
   error={errors.email}
-/>
+/>;
 ```
 
 **File:** `src/screens/RegisterScreen.js`. Lima field, yaitu nama, nomor HP (format `08xxxxxxxxxx`), email, kata sandi, konfirmasi kata sandi, ditambah checkbox persetujuan yang juga divalidasi.
@@ -451,8 +521,8 @@ const submit = () => {
 **File:** `src/screens/OrderFormScreen.js`. Validasi alamat saat memilih "Jemput & antar".
 
 ```js
-if (methodId === 'jemput' && address.trim().length < 10) {
-  setAddressError('Alamat wajib diisi lengkap (minimal 10 karakter)');
+if (methodId === "jemput" && address.trim().length < 10) {
+  setAddressError("Alamat wajib diisi lengkap (minimal 10 karakter)");
   return;
 }
 ```
@@ -477,19 +547,28 @@ if (methodId === 'jemput' && address.trim().length < 10) {
 
 ```js
 export const LIGHT = {
-  primary: '#2563EB', primaryDark: '#1E3A8A', primarySoft: '#EAF1FF', aqua: '#22D3EE',
-  background: '#F5F8FD', surface: '#FFFFFF', white: '#FFFFFF',
-  text: '#0F172A', muted: '#64748B', border: '#E2E8F0',
-  success: '#16A34A', warning: '#D97706', danger: '#DC2626',
+  primary: "#2563EB",
+  primaryDark: "#1E3A8A",
+  primarySoft: "#EAF1FF",
+  aqua: "#22D3EE",
+  background: "#F5F8FD",
+  surface: "#FFFFFF",
+  white: "#FFFFFF",
+  text: "#0F172A",
+  muted: "#64748B",
+  border: "#E2E8F0",
+  success: "#16A34A",
+  warning: "#D97706",
+  danger: "#DC2626",
   // ...
 };
 
 export const FONTS = {
-  regular: 'PlusJakartaSans_400Regular',
-  medium: 'PlusJakartaSans_500Medium',
-  semi: 'PlusJakartaSans_600SemiBold',
-  bold: 'PlusJakartaSans_700Bold',
-  extra: 'PlusJakartaSans_800ExtraBold',
+  regular: "PlusJakartaSans_400Regular",
+  medium: "PlusJakartaSans_500Medium",
+  semi: "PlusJakartaSans_600SemiBold",
+  bold: "PlusJakartaSans_700Bold",
+  extra: "PlusJakartaSans_800ExtraBold",
 };
 
 export const SPACING = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24, xxl: 32 };
@@ -511,14 +590,18 @@ const [fontsLoaded] = useFonts({
 **Contoh pemakaian ikon** (`HomeScreen.js`):
 
 ```js
-import { Ionicons } from '@expo/vector-icons';
-<Ionicons name={s.icon} size={22} color={COLORS.primary} />
+import { Ionicons } from "@expo/vector-icons";
+<Ionicons name={s.icon} size={22} color={COLORS.primary} />;
 ```
 
 **Contoh pemakaian aset gambar** (`HomeScreen.js`):
 
 ```js
-<Image source={require('../../assets/promo.png')} style={styles.promoImg} resizeMode="contain" />
+<Image
+  source={require("../../assets/promo.png")}
+  style={styles.promoImg}
+  resizeMode="contain"
+/>
 ```
 
 ---
@@ -541,17 +624,26 @@ const slide = useRef(new Animated.Value(16)).current;
 useEffect(() => {
   Animated.parallel([
     Animated.spring(scale, { toValue: 1, friction: 5, useNativeDriver: true }),
-    Animated.timing(fade, { toValue: 1, duration: 700, easing: Easing.out(Easing.quad), useNativeDriver: true }),
-    Animated.timing(slide, { toValue: 0, duration: 700, useNativeDriver: true }),
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 700,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: true,
+    }),
+    Animated.timing(slide, {
+      toValue: 0,
+      duration: 700,
+      useNativeDriver: true,
+    }),
   ]).start();
-  const t = setTimeout(() => navigation.replace('Onboarding'), 2000);
+  const t = setTimeout(() => navigation.replace("Onboarding"), 2000);
   return () => clearTimeout(t);
 }, []);
 
 <Animated.Image
-  source={require('../../assets/logo.png')}
+  source={require("../../assets/logo.png")}
   style={[styles.logo, { opacity: fade, transform: [{ scale }] }]}
-/>
+/>;
 ```
 
 ---
@@ -567,11 +659,11 @@ useEffect(() => {
 
 **Aturan warna:**
 
-| Token | Fungsi | Saat dark mode |
-|---|---|---|
-| `COLORS.surface` | Latar kartu, input, chip, tab bar | Berubah gelap |
-| `COLORS.white` | Teks atau ikon di atas warna biru | Tetap putih |
-| `COLORS.background`, `text`, `muted`, `border` | Latar halaman, teks, garis | Berubah mengikuti palet |
+| Token                                          | Fungsi                            | Saat dark mode          |
+| ---------------------------------------------- | --------------------------------- | ----------------------- |
+| `COLORS.surface`                               | Latar kartu, input, chip, tab bar | Berubah gelap           |
+| `COLORS.white`                                 | Teks atau ikon di atas warna biru | Tetap putih             |
+| `COLORS.background`, `text`, `muted`, `border` | Latar halaman, teks, garis        | Berubah mengikuti palet |
 
 #### Dokumentasi Kode
 
@@ -580,12 +672,12 @@ useEffect(() => {
 ```js
 export const DARK = {
   ...LIGHT,
-  primary: '#3B82F6',
-  background: '#0B1220',
-  surface: '#162032',
-  text: '#F1F5F9',
-  muted: '#94A3B8',
-  border: '#2A3650',
+  primary: "#3B82F6",
+  background: "#0B1220",
+  surface: "#162032",
+  text: "#F1F5F9",
+  muted: "#94A3B8",
+  border: "#2A3650",
   // ...
 };
 ```
@@ -594,17 +686,22 @@ export const DARK = {
 
 ```js
 export function ThemeProvider({ children }) {
-  const system = useColorScheme();                // ikut pengaturan HP
+  const system = useColorScheme(); // ikut pengaturan HP
   const [override, setOverride] = useState(null); // null = ikut sistem
-  const isDark = (override ?? system) === 'dark';
+  const isDark = (override ?? system) === "dark";
 
-  const value = useMemo(() => ({
-    isDark,
-    colors: isDark ? DARK : LIGHT,
-    toggle: () => setOverride(isDark ? 'light' : 'dark'),
-  }), [isDark]);
+  const value = useMemo(
+    () => ({
+      isDark,
+      colors: isDark ? DARK : LIGHT,
+      toggle: () => setOverride(isDark ? "light" : "dark"),
+    }),
+    [isDark],
+  );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 }
 
 export const useTheme = () => useContext(ThemeContext);
@@ -616,9 +713,10 @@ export const useTheme = () => useContext(ThemeContext);
 const { colors: COLORS } = useTheme();
 const styles = useMemo(() => makeStyles(COLORS), [COLORS]);
 
-const makeStyles = (COLORS) => StyleSheet.create({
-  card: { backgroundColor: COLORS.surface, borderRadius: 20, padding: 16 },
-});
+const makeStyles = (COLORS) =>
+  StyleSheet.create({
+    card: { backgroundColor: COLORS.surface, borderRadius: 20, padding: 16 },
+  });
 ```
 
 **File:** `src/screens/ProfileScreen.js`. Tombol ganti tema.
@@ -631,7 +729,7 @@ const { colors: COLORS, isDark, toggle } = useTheme();
   onValueChange={toggle}
   trackColor={{ false: COLORS.disabled, true: COLORS.primary }}
   thumbColor={COLORS.white}
-/>
+/>;
 ```
 
 **File:** `App.js`. Tema navigasi ikut berganti.
@@ -640,8 +738,14 @@ const { colors: COLORS, isDark, toggle } = useTheme();
 const base = isDark ? DarkTheme : DefaultTheme;
 const navTheme = {
   ...base,
-  colors: { ...base.colors, background: colors.background, card: colors.surface,
-            text: colors.text, border: colors.border, primary: colors.primary },
+  colors: {
+    ...base.colors,
+    background: colors.background,
+    card: colors.surface,
+    text: colors.text,
+    border: colors.border,
+    primary: colors.primary,
+  },
 };
 ```
 
