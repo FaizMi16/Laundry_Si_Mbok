@@ -28,8 +28,7 @@ Aplikasi mobile layanan laundry berbasis **React Native (Expo)**. Proyek ini han
 5. [Nilai Tambah](#5-nilai-tambah)
    - [5.1 Animasi Dasar](#51-animasi-dasar)
    - [5.2 Mode Gelap (Dark Mode)](#52-mode-gelap-dark-mode)
-6. [Checklist Screenshot](#6-checklist-screenshot)
-7. [Kesimpulan dan Keterbatasan](#7-kesimpulan-dan-keterbatasan)
+6. [Kesimpulan dan Keterbatasan](#7-kesimpulan-dan-keterbatasan)
 
 ---
 
@@ -213,48 +212,6 @@ navigation.navigate('DetailPesanan', { order: o });           // ke Detail + kir
 navigation.navigate('Pesanan');                               // pindah tab
 ```
 
-#### Screenshot
-
-> **📸 SCREENSHOT 1: Splash Screen**
-> - **Buka:** jalankan ulang aplikasi (tekan `r` di terminal Expo).
-> - **Ambil:** layar Splash dengan logo dan teks "Laundry Si Mbok" (logo tampil penuh setelah animasi selesai, sekitar 1 detik pertama).
-
-![Splash Screen](docs/screenshots/01-splash.png)
-
-*Gambar 1. Splash Screen*
-
-> **📸 SCREENSHOT 2: Onboarding**
-> - **Buka:** setelah Splash, otomatis masuk Onboarding.
-> - **Ambil:** slide pertama (judul, gambar, titik indikator, tombol "Lanjut"). Jika ingin lebih lengkap, ambil ketiga slide dan gabungkan berdampingan.
-
-![Onboarding](docs/screenshots/02-onboarding.png)
-
-*Gambar 2. Onboarding*
-
-> **📸 SCREENSHOT 3: Login dan Register**
-> - **Buka:** tekan "Mulai sekarang" di Onboarding untuk ke Login. Tekan "Daftar" untuk ke Register.
-> - **Ambil:** satu screenshot Login dan satu Register. Gabungkan berdampingan jadi satu gambar.
-
-![Login dan Register](docs/screenshots/03-login-register.png)
-
-*Gambar 3. Login dan Register*
-
-> **📸 SCREENSHOT 4: Bottom Tab (4 menu)**
-> - **Buka:** login (isi email valid dan sandi minimal 8 karakter, lalu tekan Masuk), lalu buka tab Beranda, Pesanan, Riwayat, dan Profil satu per satu.
-> - **Ambil:** satu screenshot per tab, dengan **bar tab di bawah terlihat jelas**. Gabungkan 4 gambar dalam satu baris.
-
-![Bottom Tab](docs/screenshots/04-bottom-tabs.png)
-
-*Gambar 4. Empat tab utama: Beranda, Pesanan, Riwayat, Profil*
-
-> **📸 SCREENSHOT 5: Form Pesanan dan Detail Pesanan**
-> - **Buka:** dari Beranda tekan tombol **+** (atau salah satu kartu layanan) untuk Form Pesanan. Lalu kembali dan tekan kartu pesanan aktif untuk Detail Pesanan.
-> - **Ambil:** satu screenshot masing-masing, gabungkan berdampingan.
-
-![Form dan Detail](docs/screenshots/05-form-detail.png)
-
-*Gambar 5. Form Pesanan dan Detail Pesanan*
-
 ---
 
 ### 4.2 Layout Responsif
@@ -322,25 +279,6 @@ const { width } = useWindowDimensions();
 <View style={[styles.slide, { width }]}>
 ```
 
-#### Screenshot
-
-> **📸 SCREENSHOT 6: Perbandingan ukuran layar (penting untuk bukti responsif)**
-> - **Buka:** jika memakai browser, tekan `F12`, aktifkan **Toggle device toolbar** (`Ctrl+Shift+M`), lalu pilih perangkat berbeda.
-> - **Ambil:** screenshot **Beranda** dan **Form Pesanan** pada **dua ukuran**: layar kecil (contoh: *iPhone SE*) dan layar besar (contoh: *iPhone 14 Pro Max*). Totalnya 4 gambar, susun dalam 2 baris.
-> - **Pastikan terlihat:** grid layanan tetap 2 kolom, tidak ada teks terpotong, tombol "Pesan sekarang" tetap terlihat.
-
-![Perbandingan Responsif](docs/screenshots/06-responsif.png)
-
-*Gambar 6. Tampilan pada layar kecil dan besar*
-
-> **📸 SCREENSHOT 7: Kartu pesanan tanpa tumpang tindih**
-> - **Buka:** tab **Pesanan**.
-> - **Ambil:** daftar kartu pesanan yang menampilkan nama layanan, ID, status badge, progress bar, dan total harga, tanpa ada yang saling menimpa.
-
-![Kartu Pesanan](docs/screenshots/07-kartu-pesanan.png)
-
-*Gambar 7. Kartu pesanan dengan susunan rapi*
-
 ---
 
 ### 4.3 Komponen Reusable
@@ -405,26 +343,6 @@ export default function OrderCard({ order, onPress }) {
 }
 ```
 
-#### Screenshot
-
-> **📸 SCREENSHOT 8: Komponen yang sama di screen berbeda**
-> - **Ambil tiga gambar** dan gabungkan berdampingan untuk menunjukkan komponen dipakai ulang:
->   1. **OrderCard** di tab **Beranda** (bagian "Pesanan aktif").
->   2. **OrderCard** di tab **Pesanan**.
->   3. **OrderCard** di tab **Riwayat**.
-> - **Tambahkan keterangan** pada gambar atau di bawahnya: "Komponen `OrderCard` yang sama".
-
-![Reuse OrderCard](docs/screenshots/08-reuse-ordercard.png)
-
-*Gambar 8. Komponen OrderCard dipakai di Beranda, Pesanan, dan Riwayat*
-
-> **📸 SCREENSHOT 9: Variasi props pada Button**
-> - **Ambil:** tiga tampilan tombol: `primary` (tombol "Masuk" di Login), `hero` (tombol "Lanjut" di Onboarding), dan `outline` (tombol "Buat pesanan" di tab Pesanan saat kosong). Jika varian `outline` sulit ditampilkan, cukup dua varian pertama.
-
-![Variasi Button](docs/screenshots/09-variasi-button.png)
-
-*Gambar 9. Komponen Button dengan props `variant` berbeda*
-
 ---
 
 ### 4.4 Daftar / List
@@ -469,24 +387,6 @@ export const HISTORY_ORDERS = [ /* 3 pesanan berstatus selesai */ ];
 ```js
 const order = route.params?.order || ACTIVE_ORDERS[0];
 ```
-
-#### Screenshot
-
-> **📸 SCREENSHOT 10: Daftar Pesanan lalu Detail**
-> - **Buka:** tab **Pesanan**, ambil screenshot daftar. Tekan salah satu kartu, lalu ambil screenshot **Detail Pesanan** (tampilkan timeline status).
-> - **Gabungkan** berdampingan: daftar di kiri, detail di kanan, agar terlihat alurnya.
-
-![List ke Detail](docs/screenshots/10-list-ke-detail.png)
-
-*Gambar 10. Daftar pesanan aktif dan halaman detail setelah item ditekan*
-
-> **📸 SCREENSHOT 11: Daftar Riwayat**
-> - **Buka:** tab **Riwayat**.
-> - **Ambil:** daftar tiga pesanan berstatus "Selesai".
-
-![Riwayat](docs/screenshots/11-riwayat.png)
-
-*Gambar 11. Daftar riwayat pesanan*
 
 ---
 
@@ -557,40 +457,6 @@ if (methodId === 'jemput' && address.trim().length < 10) {
 }
 ```
 
-#### Screenshot
-
-> **📸 SCREENSHOT 12: State Focus**
-> - **Buka:** screen **Login**, tekan (klik) salah satu kolom, misalnya Email, tanpa mengetik.
-> - **Ambil:** kolom yang sedang fokus (border biru) berdampingan dengan kolom lain yang normal.
-
-![Input Focus](docs/screenshots/12-input-focus.png)
-
-*Gambar 12. State focus pada kolom input*
-
-> **📸 SCREENSHOT 13: State Error (Login)**
-> - **Buka:** screen **Login**, biarkan kosong, lalu tekan **Masuk**.
-> - **Ambil:** kedua kolom dengan border merah dan pesan error di bawahnya.
-
-![Login Error](docs/screenshots/13-login-error.png)
-
-*Gambar 13. State error pada form Login*
-
-> **📸 SCREENSHOT 14: Form Register lengkap dengan error**
-> - **Buka:** screen **Register**, isi sebagian dengan data salah (contoh: nomor HP `123`, sandi dan konfirmasi berbeda), centang dibiarkan kosong, lalu tekan **Daftar**.
-> - **Ambil:** seluruh form (gunakan 2 screenshot atas dan bawah jika panjang) yang menampilkan label, placeholder, dan pesan error.
-
-![Register Error](docs/screenshots/14-register-error.png)
-
-*Gambar 14. Form Register dengan validasi*
-
-> **📸 SCREENSHOT 15: Form Pesanan**
-> - **Buka:** **Form Pesanan** (tombol **+** di Beranda). Pilih "Jemput & antar", kosongkan alamat, lalu tekan **Pesan sekarang**.
-> - **Ambil:** bagian "Alamat penjemputan" yang menampilkan error, bersama pilihan layanan dan jadwal di atasnya.
-
-![Form Pesanan](docs/screenshots/15-form-pesanan.png)
-
-*Gambar 15. Form Pesanan dengan validasi alamat*
-
 ---
 
 ### 4.6 Konsistensi Desain
@@ -655,31 +521,6 @@ import { Ionicons } from '@expo/vector-icons';
 <Image source={require('../../assets/promo.png')} style={styles.promoImg} resizeMode="contain" />
 ```
 
-#### Screenshot
-
-> **📸 SCREENSHOT 16: Beranda (gambaran konsistensi desain)**
-> - **Buka:** tab **Beranda**.
-> - **Ambil:** satu layar penuh yang menampilkan header gradient, kartu layanan beserta ikon, banner promo bergambar, dan kartu pesanan.
-
-![Beranda](docs/screenshots/16-beranda.png)
-
-*Gambar 16. Beranda: palet, tipografi, ikon, dan gambar yang seragam*
-
-> **📸 SCREENSHOT 17: Profil**
-> - **Buka:** tab **Profil**.
-> - **Ambil:** layar penuh (kartu pengguna, daftar menu berikon, tombol Keluar).
-
-![Profil](docs/screenshots/17-profil.png)
-
-*Gambar 17. Halaman Profil*
-
-> **📸 SCREENSHOT 18: Palet warna dan font (opsional, nilai plus)**
-> - **Buat:** tabel atau potongan gambar kecil berisi warna utama (biru `#2563EB`, biru tua `#1E3A8A`, aqua `#22D3EE`) dan contoh teks Plus Jakarta Sans. Bisa dibuat di Canva atau PowerPoint.
-
-![Palet dan Font](docs/screenshots/18-palet-font.png)
-
-*Gambar 18. Palet warna dan tipografi*
-
 ---
 
 ## 5. Nilai Tambah
@@ -712,17 +553,6 @@ useEffect(() => {
   style={[styles.logo, { opacity: fade, transform: [{ scale }] }]}
 />
 ```
-
-#### Screenshot
-
-> **📸 SCREENSHOT 19: Animasi Splash**
-> - **Buka:** jalankan ulang aplikasi.
-> - **Ambil:** **2 sampai 3 tangkapan layar berurutan** saat animasi berjalan (logo kecil dan samar, logo setengah membesar, logo penuh dengan teks). Susun berdampingan dengan keterangan "awal, tengah, akhir".
-> - **Alternatif:** rekam layar lalu ubah ke GIF, atau lampirkan tautan video.
-
-![Animasi Splash](docs/screenshots/19-animasi-splash.png)
-
-*Gambar 19. Tahapan animasi Splash Screen*
 
 ---
 
@@ -815,71 +645,9 @@ const navTheme = {
 };
 ```
 
-#### Screenshot
-
-> **📸 SCREENSHOT 20: Tombol Mode Gelap di Profil**
-> - **Buka:** tab **Profil**, lihat baris **Mode gelap** di bagian bawah daftar menu.
-> - **Ambil:** dua gambar berdampingan: saat switch **mati** (terang) dan saat **menyala** (gelap).
-
-![Toggle Dark Mode](docs/screenshots/20-toggle-darkmode.png)
-
-*Gambar 20. Tombol mode gelap di halaman Profil*
-
-> **📸 SCREENSHOT 21: Perbandingan Terang vs Gelap**
-> - **Ambil:** minimal **Beranda**, **Pesanan**, dan **Form Pesanan** (atau Login), masing-masing dalam mode terang dan gelap. Susun jadi 2 baris (atas: terang, bawah: gelap).
-
-![Terang vs Gelap](docs/screenshots/21-terang-vs-gelap.png)
-
-*Gambar 21. Perbandingan tampilan mode terang dan mode gelap*
-
-> **📸 SCREENSHOT 22: Onboarding dalam mode gelap**
-> - **Buka:** aktifkan mode gelap, lalu logout dari Profil dan buka ulang aplikasi, atau ubah tema sistem browser/HP menjadi gelap.
-> - **Ambil:** layar Onboarding (latar gradient berubah menjadi navy gelap, tombol menjadi biru terang).
-
-![Onboarding Dark](docs/screenshots/22-onboarding-dark.png)
-
-*Gambar 22. Onboarding pada mode gelap*
-
 ---
 
-## 6. Checklist Screenshot
-
-Simpan semua gambar di folder `docs/screenshots/` pada proyek, lalu centang bila sudah ada.
-
-| No | Nama File | Isi | Bagian | Selesai |
-|---|---|---|---|---|
-| 1 | `01-splash.png` | Splash Screen | 4.1 | [ ] |
-| 2 | `02-onboarding.png` | Onboarding (1 atau 3 slide) | 4.1 | [ ] |
-| 3 | `03-login-register.png` | Login dan Register | 4.1 | [ ] |
-| 4 | `04-bottom-tabs.png` | Empat tab utama | 4.1 | [ ] |
-| 5 | `05-form-detail.png` | Form Pesanan dan Detail Pesanan | 4.1 | [ ] |
-| 6 | `06-responsif.png` | Layar kecil vs besar (Beranda dan Form) | 4.2 | [ ] |
-| 7 | `07-kartu-pesanan.png` | Daftar kartu pesanan tanpa tumpang tindih | 4.2 | [ ] |
-| 8 | `08-reuse-ordercard.png` | OrderCard di 3 screen | 4.3 | [ ] |
-| 9 | `09-variasi-button.png` | Variasi props Button | 4.3 | [ ] |
-| 10 | `10-list-ke-detail.png` | Daftar Pesanan lalu Detail | 4.4 | [ ] |
-| 11 | `11-riwayat.png` | Daftar Riwayat | 4.4 | [ ] |
-| 12 | `12-input-focus.png` | Input saat focus | 4.5 | [ ] |
-| 13 | `13-login-error.png` | Login dengan error | 4.5 | [ ] |
-| 14 | `14-register-error.png` | Register dengan error | 4.5 | [ ] |
-| 15 | `15-form-pesanan.png` | Form Pesanan dengan error alamat | 4.5 | [ ] |
-| 16 | `16-beranda.png` | Beranda | 4.6 | [ ] |
-| 17 | `17-profil.png` | Profil | 4.6 | [ ] |
-| 18 | `18-palet-font.png` | Palet warna dan font (opsional) | 4.6 | [ ] |
-| 19 | `19-animasi-splash.png` | Tahapan animasi Splash | 5.1 | [ ] |
-| 20 | `20-toggle-darkmode.png` | Tombol mode gelap | 5.2 | [ ] |
-| 21 | `21-terang-vs-gelap.png` | Perbandingan terang vs gelap | 5.2 | [ ] |
-| 22 | `22-onboarding-dark.png` | Onboarding mode gelap | 5.2 | [ ] |
-
-**Tips mengambil screenshot di browser (localhost:8081):**
-
-1. Tekan `F12`, lalu `Ctrl+Shift+M` untuk mode perangkat seluler.
-2. Pilih ukuran perangkat (contoh: iPhone 14 Pro Max, iPhone SE).
-3. Gunakan menu titik tiga di toolbar DevTools, lalu **Capture screenshot**. Hasilnya bersih tanpa bingkai browser.
-
----
-
-## 7. Kesimpulan dan Keterbatasan
+## 6. Kesimpulan dan Keterbatasan
 
 ### Kesimpulan
 

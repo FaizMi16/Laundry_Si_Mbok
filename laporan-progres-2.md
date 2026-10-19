@@ -92,3 +92,11 @@ Dokumentasi Wawancara
 
 Dokumentasi Proyek
 [Link Dokumentasi](https://drive.google.com/drive/folders/12k3IGj147Bej6HqmB9Fkl5lguhRy7bxz)
+
+## 8. Screenschoot
+
+![Splash Screen](dokumentasi/1animasi.gif)
+![Onboarding](dokumentasi/2onboarding.gif)
+![Login dan Register](dokumentasi/3login.jpg)
+![Login dan Register](dokumentasi/3register.jpg)
+![Halaman Utamma](dokumentasi/4halamanuatama.jpg)
