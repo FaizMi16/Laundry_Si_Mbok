@@ -22,3 +22,14 @@ export function ThemeProvider({ children }) {
 }
 
 export const useTheme = () => useContext(ThemeContext);
+
+/**
+ * Hook kecil untuk membuat StyleSheet yang ikut tema.
+ * `makeStyles` harus fungsi level-modul: (colors) => StyleSheet.create({...})
+ * Mengembalikan { styles, colors, isDark } sekaligus.
+ */
+export function useThemedStyles(makeStyles) {
+  const { colors, isDark } = useTheme();
+  const styles = useMemo(() => makeStyles(colors), [makeStyles, colors]);
+  return { styles, colors, isDark };
+}

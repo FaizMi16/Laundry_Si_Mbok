@@ -14,6 +14,10 @@ import {
 import RootNavigator from './src/navigation/RootNavigator';
 import { LIGHT } from './src/theme/theme';
 import { ThemeProvider, useTheme } from './src/theme/ThemeContext';
+import { UserProvider } from './src/store/UserContext';
+import { AuthProvider } from './src/store/AuthContext';
+import { OrderProvider } from './src/store/OrderContext';
+import { CatalogProvider } from './src/store/CatalogContext';
 
 // Dipisah dari App agar bisa memakai useTheme()
 // (hook hanya bisa dipakai di dalam ThemeProvider)
@@ -60,7 +64,15 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <ThemeProvider>
-        <Root />
+        <AuthProvider>
+          <CatalogProvider>
+            <OrderProvider>
+              <UserProvider>
+                <Root />
+              </UserProvider>
+            </OrderProvider>
+          </CatalogProvider>
+        </AuthProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );
