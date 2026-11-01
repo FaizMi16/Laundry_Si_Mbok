@@ -8,3 +8,6 @@
 4. Mohammad Satria Dinilhaq (2488010064)
 
 ## Halaman yang di perbaiki
+
+Halaman Pelanggan - Mengubah sorting menjadi FIFO (First-In-First-Out)  
+![Pelanggan](dokumentasi/Pelanggan.gif)
