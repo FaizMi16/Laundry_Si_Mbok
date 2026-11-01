@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View } from 'react-native';
+import { EmptyState, FormField, SectionHeader } from '../components/molecules';
 import { METHODS, DATES, TIMES } from '../data/dummy';
 import { useCatalog } from '../store/CatalogContext';
 import { useOrders } from '../store/OrderContext';
@@ -19,6 +19,7 @@ export default function OrderFormScreen({ navigation, route }) {
   const [methodId, setMethodId] = useState('jemput');
   const [qty, setQty] = useState(3);
   const [date, setDate] = useState(DATES[0]);
+  const [time, setTime] = useState(TIMES[0]);
   // Alamat utama dari Profil terisi otomatis
   const [address, setAddress] = useState(primaryAddress?.detail || '');
   const [note, setNote] = useState('');
@@ -36,9 +37,6 @@ export default function OrderFormScreen({ navigation, route }) {
     );
   }
 
-  const subtotal = service.price * qty;
-  const total = subtotal + method.fee;
-
   const submit = () => {
     if (methodId === 'jemput' && address.trim().length < 10) {
       setAddressError('Alamat wajib diisi lengkap (minimal 10 karakter)');
@@ -48,13 +46,13 @@ export default function OrderFormScreen({ navigation, route }) {
     createOrder({
       customer: { id: user.id, name: user.name, phone: user.phone },
       service,
-      qty:null,
+      qty: null,
       method,
       address: methodId === 'jemput' ? address.trim() : '',
       pickup: methodId === 'jemput' ? { date, time } : null,
       note: note.trim(),
       paymentId,
-      total:null,
+      total: null,
     });
     navigation.navigate('MainTabs', { screen: 'Pesanan' });
   };
@@ -123,7 +121,7 @@ export default function OrderFormScreen({ navigation, route }) {
         style={{ marginBottom: 0 }}
       />
 
-      <OrderSummaryCard serviceName={service.name} qty={qty} subtotal={subtotal} fee={method.fee} total={total} />
+      <OrderSummaryCard serviceName={service.name} qty={null} subtotal={null} fee={method.fee} total={null} />
     </ScreenTemplate>
   );
 }
