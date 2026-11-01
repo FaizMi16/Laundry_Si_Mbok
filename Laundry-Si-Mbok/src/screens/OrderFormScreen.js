@@ -19,7 +19,6 @@ export default function OrderFormScreen({ navigation, route }) {
   const [methodId, setMethodId] = useState('jemput');
   const [qty, setQty] = useState(3);
   const [date, setDate] = useState(DATES[0]);
-  const [time, setTime] = useState(TIMES[0]);
   // Alamat utama dari Profil terisi otomatis
   const [address, setAddress] = useState(primaryAddress?.detail || '');
   const [note, setNote] = useState('');
@@ -49,13 +48,13 @@ export default function OrderFormScreen({ navigation, route }) {
     createOrder({
       customer: { id: user.id, name: user.name, phone: user.phone },
       service,
-      qty,
+      qty:null,
       method,
       address: methodId === 'jemput' ? address.trim() : '',
       pickup: methodId === 'jemput' ? { date, time } : null,
       note: note.trim(),
       paymentId,
-      total,
+      total:null,
     });
     navigation.navigate('MainTabs', { screen: 'Pesanan' });
   };
@@ -71,11 +70,12 @@ export default function OrderFormScreen({ navigation, route }) {
       <ServiceSelector
         services={services}
         selectedId={service.id}
-        onSelect={(s) => { setServiceId(s.id); setQty(s.unit === 'kg' ? 3 : 1); }}
+       onSelect={(s) => setServiceId(s.id)}
       />
 
-      <SectionHeader title={`Jumlah (${service.unit})`} size="md" />
-      <QuantityStepper value={qty} unit={service.unit} onChange={setQty} />
+     <Text style={{ color: COLORS.textMuted, marginBottom: 12 }}>
+      Jumlah dan total harga dihitung setelah cucianmu ditimbang di gerai.
+      </Text>
 
       <SectionHeader title="Cara penyerahan" size="md" />
       <MethodSelector methods={METHODS} selectedId={methodId} onSelect={(m) => setMethodId(m.id)} />
