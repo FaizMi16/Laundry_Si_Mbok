@@ -4,6 +4,7 @@ import { METHODS, DATES, TIMES } from '../data/dummy';
 import { useCatalog } from '../store/CatalogContext';
 import { useOrders } from '../store/OrderContext';
 import { useUser } from '../store/UserContext';
+import { useTheme } from '../theme/ThemeContext';
 import { Button, Chip } from '../components/atoms';
 import { EmptyState, FormField, QuantityStepper, SectionHeader } from '../components/molecules';
 import {
@@ -12,6 +13,7 @@ import {
 import { ScreenTemplate } from '../components/templates';
 
 export default function OrderFormScreen({ navigation, route }) {
+  const { colors: COLORS } = useTheme();
   const { user, addresses, primaryAddress, paymentId } = useUser();
   const { activeServices: services } = useCatalog();
   const { createOrder } = useOrders();
