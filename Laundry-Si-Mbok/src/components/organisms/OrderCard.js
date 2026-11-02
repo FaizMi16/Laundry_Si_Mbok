@@ -2,7 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { SHADOW } from '../../theme/theme';
 import { useThemedStyles } from '../../theme/ThemeContext';
-import { STEPS, formatRupiah } from '../../data/dummy';
+import { STEPS } from '../../data/dummy';
+import { formatAmount, formatTotal } from '../../utils/orders';
 import { AppText, IconBadge, ProgressBar } from '../atoms';
 import { StatusBadge } from '../molecules';
 
@@ -18,7 +19,7 @@ export default function OrderCard({ order, onPress }) {
         <View style={{ flex: 1, minWidth: 0 }}>
           <AppText variant="bodyBold" numberOfLines={1}>{order.service}</AppText>
           <AppText variant="caption" color="muted" numberOfLines={1} style={{ marginTop: 2 }}>
-            {order.id} • {order.amount}
+            {order.id} • {formatAmount(order)}
           </AppText>
         </View>
         <StatusBadge step={order.step} />
@@ -28,7 +29,7 @@ export default function OrderCard({ order, onPress }) {
 
       <View style={styles.bottom}>
         <AppText variant="caption" color="muted">{order.date}</AppText>
-        <AppText variant="heading" style={{ fontSize: 14 }}>{formatRupiah(order.total)}</AppText>
+        <AppText variant="heading" style={{ fontSize: 14 }}>{formatTotal(order)}</AppText>
       </View>
     </TouchableOpacity>
   );

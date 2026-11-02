@@ -4,7 +4,7 @@ import { PAYMENT_METHODS } from '../../data/dummy';
 import { useOrders } from '../../store/OrderContext';
 import { EmptyState, SectionHeader } from '../../components/molecules';
 import {
-  OrderCustomerCard, OrderInfoCard, OrderPaymentCard, OrderStatusActions, OrderTimeline,
+  OrderCustomerCard, OrderInfoCard, OrderPaymentCard, OrderStatusActions, OrderTimeline, OrderWeightCard,
 } from '../../components/organisms';
 import { ScreenTemplate } from '../../components/templates';
 
@@ -19,7 +19,7 @@ const open = async (url, failMessage) => {
 const toIntlPhone = (phone) => phone.replace(/^0/, '62');
 
 export default function AdminOrderDetailScreen({ navigation, route }) {
-  const { orders, advanceOrder, revertOrder, setPaid } = useOrders();
+  const { orders, advanceOrder, revertOrder, setPaid, setWeight } = useOrders();
   const order = orders.find((o) => o.id === route.params?.orderId);
 
   if (!order) {
@@ -46,7 +46,10 @@ export default function AdminOrderDetailScreen({ navigation, route }) {
     >
       <OrderInfoCard order={order} />
 
-      <SectionHeader title="Pelanggan & penjemputan" size="md" style={{ marginTop: 24 }} />
+      <SectionHeader title="Berat & harga" size="md" style={{ marginTop: 24 }} />
+      <OrderWeightCard key={`${order.id}-${order.qty}`} order={order} onSave={(qty) => setWeight(order.id, qty)} />
+
+      <SectionHeader title="Pelanggan & penjemputan" size="md" />
       <OrderCustomerCard
         order={order}
         onCall={() => open(`tel:${order.customer.phone}`, 'Panggilan telepon tidak tersedia di perangkat ini.')}

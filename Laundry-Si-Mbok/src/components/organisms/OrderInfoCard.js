@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SHADOW } from '../../theme/theme';
 import { useThemedStyles } from '../../theme/ThemeContext';
-import { formatRupiah } from '../../data/dummy';
+import { formatAmount, formatTotal } from '../../utils/orders';
 import { AppText, Divider } from '../atoms';
 import { InfoRow, StatusBadge } from '../molecules';
 
@@ -20,9 +20,9 @@ export default function OrderInfoCard({ order }) {
       </View>
       <Divider style={{ marginVertical: 14 }} />
       <InfoRow label="Layanan" value={order.service} />
-      <InfoRow label="Jumlah" value={order.amount} />
+      <InfoRow label="Jumlah" value={formatAmount(order)} />
       <InfoRow label="Penyerahan" value={order.method} />
-      <InfoRow label="Total" value={formatRupiah(order.total)} emphasis="bold" />
+      <InfoRow label="Total" value={formatTotal(order)} emphasis="bold" />
     </View>
   );
 }

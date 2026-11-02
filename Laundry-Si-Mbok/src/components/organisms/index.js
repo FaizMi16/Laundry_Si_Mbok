@@ -24,6 +24,7 @@ export { default as OrderPaymentCard } from './OrderPaymentCard';
 export { default as OrderStatusActions } from './OrderStatusActions';
 export { default as OrderSummaryCard } from './OrderSummaryCard';
 export { default as OrderTimeline } from './OrderTimeline';
+export { default as OrderWeightCard } from './OrderWeightCard';
 export { default as PaymentMethodList } from './PaymentMethodList';
 export { default as ProfileHero } from './ProfileHero';
 export { default as PromoBanner } from './PromoBanner';

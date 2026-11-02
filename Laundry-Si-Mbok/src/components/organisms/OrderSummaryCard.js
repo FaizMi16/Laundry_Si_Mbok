@@ -6,15 +6,15 @@ import { formatRupiah } from '../../data/dummy';
 import { Divider } from '../atoms';
 import { InfoRow } from '../molecules';
 
-/** Ringkasan biaya di form pesanan. Props: serviceName, qty, subtotal, fee, total */
-export default function OrderSummaryCard({ serviceName, qty, subtotal, fee, total }) {
+/** Ringkasan biaya di form pesanan. Jumlah & total dihitung admin setelah ditimbang. Props: serviceName, price, unit, fee */
+export default function OrderSummaryCard({ serviceName, price, unit, fee }) {
   const { styles } = useThemedStyles(makeStyles);
   return (
     <View style={[styles.card, SHADOW.card]}>
-      <InfoRow label={`${serviceName} × ${qty}`} value={formatRupiah(subtotal)} />
+      <InfoRow label={serviceName} value={`${formatRupiah(price)}/${unit}`} />
       <InfoRow label="Ongkos jemput" value={fee ? formatRupiah(fee) : 'Gratis'} />
       <Divider style={{ marginVertical: 10 }} />
-      <InfoRow label="Total" value={formatRupiah(total)} emphasis="total" />
+      <InfoRow label="Total" value="Setelah ditimbang" emphasis="total" />
     </View>
   );
 }

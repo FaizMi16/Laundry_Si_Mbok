@@ -2,8 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { SHADOW } from '../../theme/theme';
 import { useThemedStyles } from '../../theme/ThemeContext';
-import { STEPS, formatRupiah } from '../../data/dummy';
-import { nextActionLabel } from '../../utils/orders';
+import { STEPS } from '../../data/dummy';
+import { formatAmount, formatTotal, nextActionLabel } from '../../utils/orders';
 import { AppText, Avatar, Divider, ProgressBar, TextButton } from '../atoms';
 import { PaymentBadge, StatusBadge } from '../molecules';
 
@@ -22,7 +22,7 @@ export default function AdminOrderCard({ order, onPress, onAdvance }) {
         <View style={{ flex: 1, minWidth: 0 }}>
           <AppText variant="bodyBold" numberOfLines={1}>{order.customer.name}</AppText>
           <AppText variant="caption" color="muted" numberOfLines={1} style={{ marginTop: 2 }}>
-            {order.id} • {order.service} • {order.amount}
+            {order.id} • {order.service} • {formatAmount(order)}
           </AppText>
         </View>
         <StatusBadge step={order.step} />
@@ -35,7 +35,7 @@ export default function AdminOrderCard({ order, onPress, onAdvance }) {
           <PaymentBadge paid={order.paid} />
           <AppText variant="caption" color="muted" numberOfLines={1} style={{ flexShrink: 1 }}>{order.method}</AppText>
         </View>
-        <AppText variant="heading" style={{ fontSize: 14 }}>{formatRupiah(order.total)}</AppText>
+        <AppText variant="heading" style={{ fontSize: 14 }}>{formatTotal(order)}</AppText>
       </View>
 
       {action ? (

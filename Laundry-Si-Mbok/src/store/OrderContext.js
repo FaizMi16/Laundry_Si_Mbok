@@ -1,12 +1,13 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { SEED_ORDERS } from '../data/dummy';
 import { formatDateID } from '../utils/format';
-import { isFinished, nextStep, prevStep } from '../utils/orders';
+import { computeTotal, formatQty, isFinished, nextStep, prevStep, unitPriceOf } from '../utils/orders';
 
 /**
  * Store pesanan bersama user & admin (pengganti backend, di memori).
  * - User membuat pesanan lewat createOrder().
  * - Admin memajukan status / menandai lunas lewat advanceOrder(), revertOrder(), setPaid().
+ * - Admin mengisi berat cucian lewat setWeight(); total dihitung dari harga layanan saat dipesan.
  * TODO(backend): ganti isi tiap action dengan request API; UI tidak perlu diubah.
  */
 const OrderContext = createContext(null);
@@ -26,11 +27,13 @@ export function OrderProvider({ children }) {
         customer,
         serviceId: service.id,
         service: service.name,
-        qty,
+        // Berat belum diketahui saat dipesan: qty/amount/total null sampai admin menimbang
+        price: service.price,
+        qty: qty ?? null,
         unit: service.unit,
-        amount: `${qty} ${service.unit}`,
+        amount: qty != null ? `${formatQty(qty)} ${service.unit}` : null,
         fee: method.fee,
-        total,
+        total: total ?? null,
         step: 0,
         date: formatDateID(),
         methodId: method.id,
@@ -54,9 +57,16 @@ export function OrderProvider({ children }) {
   const revertOrder = useCallback((id) => patch(id, (o) => (o.step <= 0 ? {} : { step: prevStep(o) })), [patch]);
   const setPaid = useCallback((id, paid) => patch(id, () => ({ paid })), [patch]);
 
+  /** Admin mengisi berat/jumlah; total dihitung ulang dari harga satuan + ongkos jemput. */
+  const setWeight = useCallback((id, qty) => patch(id, (o) => {
+    const price = unitPriceOf(o);
+    if (price == null) return {};
+    return { price, qty, amount: `${formatQty(qty)} ${o.unit}`, total: computeTotal(price, qty, o.fee) };
+  }), [patch]);
+
   const value = useMemo(
-    () => ({ orders, createOrder, advanceOrder, revertOrder, setPaid }),
-    [orders, createOrder, advanceOrder, revertOrder, setPaid]
+    () => ({ orders, createOrder, advanceOrder, revertOrder, setPaid, setWeight }),
+    [orders, createOrder, advanceOrder, revertOrder, setPaid, setWeight]
   );
   return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>;
 }

@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { SHADOW } from '../../theme/theme';
 import { useThemedStyles } from '../../theme/ThemeContext';
 import { formatRupiah } from '../../data/dummy';
+import { formatTotal } from '../../utils/orders';
 import { AppText, Button, Divider, TextButton } from '../atoms';
 import { InfoRow, PaymentBadge } from '../molecules';
 
@@ -21,13 +22,27 @@ export default function OrderPaymentCard({ order, paymentName, onSetPaid }) {
         <PaymentBadge paid={order.paid} />
       </View>
       <Divider style={{ marginVertical: 10 }} />
-      <InfoRow label="Total" value={formatRupiah(order.total)} emphasis="total" />
+      <InfoRow label="Total" value={formatTotal(order)} emphasis="total" />
 
       <View style={{ marginTop: 16 }}>
         {order.paid ? (
           <TextButton label="Batalkan status lunas" icon="close-circle-outline" tone="muted" onPress={() => onSetPaid(false)} />
         ) : (
-          <Button title="Tandai sudah dibayar" variant="outline" icon="cash-outline" iconPosition="left" onPress={() => onSetPaid(true)} />
+          <>
+            <Button
+              title="Tandai sudah dibayar"
+              variant="outline"
+              icon="cash-outline"
+              iconPosition="left"
+              disabled={order.total == null}
+              onPress={() => onSetPaid(true)}
+            />
+            {order.total == null ? (
+              <AppText variant="caption" color="muted" style={{ marginTop: 8, textAlign: 'center' }}>
+                Isi berat cucian dulu supaya total bisa dihitung.
+              </AppText>
+            ) : null}
+          </>
         )}
       </View>
     </View>

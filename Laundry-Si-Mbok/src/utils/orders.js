@@ -1,4 +1,4 @@
-import { STEPS } from '../data/dummy';
+import { STEPS, formatRupiah } from '../data/dummy';
 
 // Fungsi murni untuk logika alur pesanan — dipakai user & admin agar aturannya satu.
 export const LAST_STEP = STEPS.length - 1;
@@ -29,6 +29,45 @@ export const nextActionLabel = (order) => {
   return walkIn ? 'Tandai sudah diambil' : 'Tandai selesai';
 };
 
+// ───────────────────────── Berat & total (diisi admin setelah cucian ditimbang) ─────────────────────────
+// Pesanan baru dari user belum punya qty/total (null). Admin mengisinya di Detail Pesanan.
+
+/** Sudah ditimbang = jumlah dan total sudah terisi. */
+export const isWeighed = (order) => order.qty != null && order.total != null;
+
+/** Harga satuan. Pesanan baru menyimpan `price`; data contoh diturunkan dari total. */
+export const unitPriceOf = (order) => {
+  if (order.price != null) return order.price;
+  if (order.qty && order.total != null) return (order.total - (order.fee || 0)) / order.qty;
+  return null;
+};
+
+/** Total = harga satuan × jumlah + ongkos jemput (dibulatkan ke rupiah). */
+export const computeTotal = (price, qty, fee) => Math.round(price * qty) + (fee || 0);
+
+/** 2.5 -> "2,5" (format angka Indonesia). */
+export const formatQty = (qty) => String(qty).replace('.', ',');
+
+/** Teks jumlah untuk ditampilkan; aman untuk pesanan yang belum ditimbang. */
+export const formatAmount = (order) =>
+  order.qty != null ? `${formatQty(order.qty)} ${order.unit}` : 'Belum ditimbang';
+
+/** Teks total untuk ditampilkan; aman untuk pesanan yang belum ditimbang. */
+export const formatTotal = (order) =>
+  order.total != null ? formatRupiah(order.total) : 'Belum dihitung';
+
+/**
+ * Baca input admin. kg: bilangan bulat atau 1 angka desimal ("2,5" / "2.5");
+ * pcs: bilangan bulat. Mengembalikan null bila tidak valid atau 0.
+ */
+export const parseQty = (text, unit) => {
+  const t = String(text).trim();
+  const pattern = unit === 'pcs' ? /^\d+$/ : /^\d+([.,]\d)?$/;
+  if (!pattern.test(t)) return null;
+  const n = Number(t.replace(',', '.'));
+  return n > 0 ? n : null;
+};
+
 export const FILTER_MATCHERS = {
   all: () => true,
   new: (o) => o.step === 0,
@@ -51,8 +90,8 @@ export const summarizeOrders = (orders) => ({
   process: orders.filter(FILTER_MATCHERS.process).length,
   done: orders.filter(FILTER_MATCHERS.done).length,
   unpaid: orders.filter(FILTER_MATCHERS.unpaid).length,
-  revenue: orders.filter((o) => o.paid).reduce((sum, o) => sum + o.total, 0),
-  outstanding: orders.filter((o) => !o.paid).reduce((sum, o) => sum + o.total, 0),
+  revenue: orders.filter((o) => o.paid).reduce((sum, o) => sum + (o.total || 0), 0),
+  outstanding: orders.filter((o) => !o.paid).reduce((sum, o) => sum + (o.total || 0), 0),
 });
 
 /** Kelompokkan pesanan menjadi daftar pelanggan (urutan: pesanan terbaru dulu). */
@@ -62,7 +101,7 @@ export const groupCustomers = (orders) => {
     const c = map.get(o.customer.id) || { ...o.customer, orderCount: 0, activeCount: 0, totalSpend: 0, lastDate: o.date };
     c.orderCount += 1;
     if (!isFinished(o)) c.activeCount += 1;
-    c.totalSpend += o.total;
+    c.totalSpend += o.total || 0;
     map.set(o.customer.id, c);
   });
   return Array.from(map.values());

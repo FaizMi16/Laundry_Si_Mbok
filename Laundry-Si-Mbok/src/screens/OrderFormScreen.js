@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { METHODS, DATES, TIMES } from '../data/dummy';
 import { useCatalog } from '../store/CatalogContext';
 import { useOrders } from '../store/OrderContext';
 import { useUser } from '../store/UserContext';
-import { useTheme } from '../theme/ThemeContext';
-import { Button, Chip } from '../components/atoms';
+import { AppText, Button, Chip } from '../components/atoms';
 import { EmptyState, FormField, SectionHeader } from '../components/molecules';
 import {
   MethodSelector, OrderSummaryCard, SchedulePicker, ServiceSelector,
@@ -13,13 +12,11 @@ import {
 import { ScreenTemplate } from '../components/templates';
 
 export default function OrderFormScreen({ navigation, route }) {
-  const { colors: COLORS } = useTheme();
   const { user, addresses, primaryAddress, paymentId } = useUser();
   const { activeServices: services } = useCatalog();
   const { createOrder } = useOrders();
   const [serviceId, setServiceId] = useState(route.params?.serviceId || 'kiloan');
   const [methodId, setMethodId] = useState('jemput');
-  const [qty, setQty] = useState(3);
   const [date, setDate] = useState(DATES[0]);
   const [time, setTime] = useState(TIMES[0]);
   // Alamat utama dari Profil terisi otomatis
@@ -48,13 +45,11 @@ export default function OrderFormScreen({ navigation, route }) {
     createOrder({
       customer: { id: user.id, name: user.name, phone: user.phone },
       service,
-      qty: null,
       method,
       address: methodId === 'jemput' ? address.trim() : '',
       pickup: methodId === 'jemput' ? { date, time } : null,
       note: note.trim(),
       paymentId,
-      total: null,
     });
     navigation.navigate('MainTabs', { screen: 'Pesanan' });
   };
@@ -70,12 +65,12 @@ export default function OrderFormScreen({ navigation, route }) {
       <ServiceSelector
         services={services}
         selectedId={service.id}
-       onSelect={(s) => setServiceId(s.id)}
+        onSelect={(s) => setServiceId(s.id)}
       />
 
-     <Text style={{ color: COLORS.textMuted, marginBottom: 12 }}>
-      Jumlah dan total harga dihitung setelah cucianmu ditimbang di gerai.
-      </Text>
+      <AppText variant="caption" color="muted" style={{ marginBottom: 12 }}>
+        Jumlah dan total harga dihitung setelah cucianmu ditimbang di gerai.
+      </AppText>
 
       <SectionHeader title="Cara penyerahan" size="md" />
       <MethodSelector methods={METHODS} selectedId={methodId} onSelect={(m) => setMethodId(m.id)} />
@@ -123,7 +118,7 @@ export default function OrderFormScreen({ navigation, route }) {
         style={{ marginBottom: 0 }}
       />
 
-      <OrderSummaryCard serviceName={service.name} qty={null} subtotal={null} fee={method.fee} total={null} />
+      <OrderSummaryCard serviceName={service.name} price={service.price} unit={service.unit} fee={method.fee} />
     </ScreenTemplate>
   );
 }
