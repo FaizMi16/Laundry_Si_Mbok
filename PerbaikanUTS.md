@@ -11,3 +11,7 @@
 
 Halaman Pelanggan - Mengubah sorting menjadi FIFO (First-In-First-Out)  
 ![Pelanggan](dokumentasi/Pelanggan.gif)
+
+Halaman Admin - validasi berat pakaian yang berada di role admin
+
+![alt text](dokumentasi/revisi_validasi_admin.gif)
