@@ -1,4 +1,5 @@
 import { STEPS, formatRupiah } from '../data/dummy';
+import { MONTH_NAMES_ID, parseDateID } from './format';
 
 // Fungsi murni untuk logika alur pesanan — dipakai user & admin agar aturannya satu.
 export const LAST_STEP = STEPS.length - 1;
@@ -105,4 +106,27 @@ export const groupCustomers = (orders) => {
     map.set(o.customer.id, c);
   });
   return Array.from(map.values());
+};
+
+// ───────────────────────── Filter periode (Report Keuangan) ─────────────────────────
+// Periode memakai tanggal pesanan dibuat (order.date). 'all' = tanpa filter.
+
+/** Daftar tahun yang punya pesanan, terbaru dulu. */
+export const availableYears = (orders) => {
+  const years = orders.map((o) => parseDateID(o.date)?.year).filter(Boolean);
+  return Array.from(new Set(years)).sort((a, b) => b - a);
+};
+
+/** Pesanan pada tahun (dan bulan 0–11) tertentu. year 'all' = semua pesanan. */
+export const filterByPeriod = (orders, year = 'all', month = 'all') => {
+  if (year === 'all') return orders;
+  return orders.filter((o) => {
+    const d = parseDateID(o.date);
+    return d && d.year === year && (month === 'all' || d.month === month);
+  });
+};
+
+export const periodLabel = (year = 'all', month = 'all') => {
+  if (year === 'all') return 'Semua periode';
+  return month === 'all' ? `Tahun ${year}` : `${MONTH_NAMES_ID[month]} ${year}`;
 };

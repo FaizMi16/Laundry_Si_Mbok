@@ -10,6 +10,7 @@ export { default as CtaCard } from './CtaCard';
 export { default as CustomerCard } from './CustomerCard';
 export { default as EditProfileForm } from './EditProfileForm';
 export { default as FaqList } from './FaqList';
+export { default as FinanceReport } from './FinanceReport';
 export { default as HomeHeader } from './HomeHeader';
 export { default as LoginForm } from './LoginForm';
 export { default as MenuGroup } from './MenuGroup';

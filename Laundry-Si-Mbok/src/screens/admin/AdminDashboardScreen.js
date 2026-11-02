@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { formatRupiah } from '../../data/dummy';
 import { useAuth } from '../../store/AuthContext';
 import { useCatalog } from '../../store/CatalogContext';
 import { useOrders } from '../../store/OrderContext';
 import { getFirstName } from '../../utils/format';
 import { groupCustomers, summarizeOrders } from '../../utils/orders';
 import { EmptyState, SectionHeader } from '../../components/molecules';
-import { AdminHeader, AdminOrderCard, MetricGrid, StatsCard } from '../../components/organisms';
+import { AdminHeader, AdminOrderCard, FinanceReport, MetricGrid, StatsCard } from '../../components/organisms';
 import { HeroScrollTemplate } from '../../components/templates';
 
 export default function AdminDashboardScreen({ navigation }) {
@@ -27,8 +26,6 @@ export default function AdminDashboardScreen({ navigation }) {
   const openDetail = (o) => navigation.navigate('AdminDetailPesanan', { orderId: o.id });
 
   const metrics = [
-    { id: 'revenue', icon: 'cash-outline', tone: 'success', value: formatRupiah(summary.revenue), label: 'Pendapatan (lunas)' },
-    { id: 'unpaid', icon: 'alert-circle-outline', tone: 'danger', value: formatRupiah(summary.outstanding), label: `Belum dibayar (${summary.unpaid})`, onPress: () => openOrders('unpaid') },
     { id: 'customers', icon: 'people-outline', tone: 'primary', value: String(customers.length), label: 'Pelanggan', onPress: () => navigation.navigate('AdminPelanggan') },
     { id: 'services', icon: 'pricetags-outline', tone: 'warning', value: String(activeServices.length), label: 'Layanan aktif', onPress: () => navigation.navigate('AdminLayanan') },
   ];
@@ -44,6 +41,10 @@ export default function AdminDashboardScreen({ navigation }) {
           { value: String(summary.done), label: 'Selesai' },
         ]}
       />
+
+      <View style={styles.section}>
+        <FinanceReport orders={orders} onUnpaidPress={() => openOrders('unpaid')} />
+      </View>
 
       <View style={styles.section}>
         <MetricGrid metrics={metrics} />
