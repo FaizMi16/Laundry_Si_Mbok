@@ -96,3 +96,15 @@ memakai logika yang sama. Cari `TODO(backend)` untuk titik sambung API.
 - Layar lain (Beranda, form pesanan, dashboard admin) tidak berubah karena tetap membaca `useCatalog()`.
 - Yang masih lokal: pesanan, pelanggan, alamat, pembayaran, autentikasi.
 - Kebijakan RLS di modul bersifat longgar (publik) dan hanya untuk praktikum.
+
+## Tahap 2: pelanggan, alamat, pesanan di Supabase
+- SQL: `supabase/pesanan-pelanggan-alamat.sql` (tabel `pelanggan`, `alamat`, `pesanan`, penomoran otomatis USR-xxx / LSM-xxxx, RLS, dan data awal). Jalankan sekali di SQL Editor; tabel `layanan` tidak disentuh.
+- `UserContext`: profil, alamat, metode pembayaran, dan pengaturan notifikasi dari/ke Supabase. `masuk(email)` mencari pelanggan; email yang belum terdaftar memakai akun demo `USR-001` (perilaku lama).
+- `OrderContext`: pesanan user & admin dari satu tabel. Perubahan status tampil langsung (optimistik) dan dibatalkan lewat `refresh()` bila database menolak.
+- Aksi store TIDAK melempar error: kegagalan ditampilkan lewat `utils/laporGagal.js` (Alert) dan hasilnya `false`; layar hanya berpindah/menampilkan sukses bila hasilnya `true`.
+- Pemetaan snake_case -> camelCase hanya di `keOrder`, `keUser`, `keAlamat`.
+- Pesanan menyimpan salinan nama/harga/satuan layanan saat dipesan (tanpa FK ke `layanan`), jadi layanan boleh dihapus tanpa merusak riwayat.
+
+### Yang masih lokal / catatan keamanan
+- Login belum memakai Supabase Auth: admin masih dicek lokal (`AuthContext`) dan kata sandinya ada di kode. TODO(auth).
+- Kebijakan RLS bersifat TERBUKA untuk publik (siapa pun yang memegang publishable key bisa membaca & mengubah pelanggan, alamat, dan pesanan). Hanya untuk praktikum; wajib diganti kebijakan per pengguna setelah login sungguhan ada.

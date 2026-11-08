@@ -1,72 +1,166 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { SEED_ORDERS } from '../data/dummy';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { AppState } from 'react-native';
+import { supabase } from '../lib/supabase';
 import { formatDateID } from '../utils/format';
+import { laporGagal } from '../utils/laporGagal';
 import { computeTotal, formatQty, isFinished, nextStep, prevStep, unitPriceOf } from '../utils/orders';
 
 /**
- * Store pesanan bersama user & admin (pengganti backend, di memori).
+ * Store pesanan bersama user & admin (sumber: tabel `pesanan` di Supabase).
  * - User membuat pesanan lewat createOrder().
  * - Admin memajukan status / menandai lunas lewat advanceOrder(), revertOrder(), setPaid().
  * - Admin mengisi berat cucian lewat setWeight(); total dihitung dari harga layanan saat dipesan.
- * TODO(backend): ganti isi tiap action dengan request API; UI tidak perlu diubah.
+ * Semua action async, TIDAK melempar error: bila gagal, Alert ditampilkan di sini dan hasilnya `false`.
+ * Perubahan status memakai pembaruan langsung di layar (optimistik) lalu dibatalkan bila database menolak.
  */
 const OrderContext = createContext(null);
 
-const nextOrderId = (orders) => {
-  const max = orders.reduce((m, o) => Math.max(m, parseInt(o.id.replace(/\D/g, ''), 10) || 0), 0);
-  return `LSM-${String(max + 1).padStart(4, '0')}`;
+const SELECT = '*, pelanggan(id, nama, telepon)';
+
+const angka = (v) => (v == null ? null : Number(v));
+
+// 'YYYY-MM-DD' (kolom date) -> Date lokal, supaya tidak bergeser sehari karena zona waktu
+const tanggalLokal = (iso) => {
+  const [y, m, d] = String(iso).split('-').map(Number);
+  return new Date(y, m - 1, d);
+};
+
+// Baris database (snake_case) -> bentuk pesanan yang dipakai seluruh layar. Pemetaan hanya di sini.
+export const keOrder = (row) => {
+  const qty = angka(row.qty);
+  return {
+    id: row.id,
+    customer: {
+      id: row.pelanggan?.id ?? row.pelanggan_id,
+      name: row.pelanggan?.nama ?? '',
+      phone: row.pelanggan?.telepon ?? '',
+    },
+    serviceId: row.layanan_id,
+    service: row.layanan_nama,
+    price: angka(row.harga),
+    qty,
+    unit: row.satuan,
+    amount: qty != null ? `${formatQty(qty)} ${row.satuan}` : null,
+    fee: angka(row.ongkos) ?? 0,
+    total: angka(row.total),
+    step: row.langkah,
+    date: formatDateID(tanggalLokal(row.tanggal)),
+    methodId: row.metode_id,
+    method: row.metode,
+    address: row.alamat ?? '',
+    pickup: row.jemput_tanggal ? { date: row.jemput_tanggal, time: row.jemput_jam } : null,
+    note: row.catatan ?? '',
+    paymentId: row.pembayaran_id,
+    paid: row.lunas,
+  };
 };
 
 export function OrderProvider({ children }) {
-  const [orders, setOrders] = useState(SEED_ORDERS);
+  const [orders, setOrders] = useState([]);
+  const [memuat, setMemuat] = useState(true);
+  const ordersRef = useRef(orders);
+  ordersRef.current = orders;
 
-  const createOrder = useCallback(({ customer, service, qty, method, address, pickup, note, paymentId, total }) => {
-    setOrders((list) => {
-      const created = {
-        id: nextOrderId(list),
-        customer,
-        serviceId: service.id,
-        service: service.name,
-        // Berat belum diketahui saat dipesan: qty/amount/total null sampai admin menimbang
-        price: service.price,
-        qty: qty ?? null,
-        unit: service.unit,
-        amount: qty != null ? `${formatQty(qty)} ${service.unit}` : null,
-        fee: method.fee,
-        total: total ?? null,
-        step: 0,
-        date: formatDateID(),
-        methodId: method.id,
-        method: method.name,
-        address,
-        pickup,
-        note,
-        paymentId,
-        paid: false,
-      };
-      return [created, ...list];
-    });
+  const refresh = useCallback(async () => {
+    const { data, error } = await supabase.from('pesanan').select(SELECT).order('id', { ascending: false });
+    if (error) console.log('Gagal memuat pesanan:', error.message);
+    else if (data) setOrders(data.map(keOrder));
+    setMemuat(false);
   }, []);
 
-  const patch = useCallback(
-    (id, fn) => setOrders((list) => list.map((o) => (o.id === id ? { ...o, ...fn(o) } : o))),
-    []
+  useEffect(() => { refresh(); }, [refresh]);
+
+  // Admin & pelanggan memakai perangkat berbeda: muat ulang saat aplikasi kembali dibuka.
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => { if (state === 'active') refresh(); });
+    return () => sub.remove();
+  }, [refresh]);
+
+  const createOrder = useCallback(async ({ customer, service, qty, method, address, pickup, note, paymentId, total }) => {
+    const { data, error } = await supabase
+      .from('pesanan')
+      .insert({
+        pelanggan_id: customer.id,
+        layanan_id: String(service.id),
+        layanan_nama: service.name,
+        // Berat belum diketahui saat dipesan: qty/total null sampai admin menimbang
+        harga: service.price,
+        satuan: service.unit,
+        qty: qty ?? null,
+        ongkos: method.fee,
+        total: total ?? null,
+        langkah: 0,
+        metode_id: method.id,
+        metode: method.name,
+        alamat: address,
+        jemput_tanggal: pickup?.date ?? null,
+        jemput_jam: pickup?.time ?? null,
+        catatan: note,
+        pembayaran_id: paymentId,
+        lunas: false,
+      })
+      .select(SELECT)
+      .single();
+    if (error) { laporGagal('Gagal membuat pesanan', error); return false; }
+    setOrders((list) => [keOrder(data), ...list]);
+    return true;
+  }, []);
+
+  // `bentuk(order)` mengembalikan { lokal, kolom } (perubahan di layar & di database) atau null bila tidak perlu.
+  const ubah = useCallback(async (id, bentuk) => {
+    const order = ordersRef.current.find((o) => o.id === id);
+    const hasil = order ? bentuk(order) : null;
+    if (!hasil) return false;
+    setOrders((list) => list.map((o) => (o.id === id ? { ...o, ...hasil.lokal } : o)));
+    const { error } = await supabase.from('pesanan').update(hasil.kolom).eq('id', id);
+    if (error) {
+      laporGagal('Gagal menyimpan perubahan', error);
+      await refresh(); // kembalikan layar ke keadaan database
+      return false;
+    }
+    return true;
+  }, [refresh]);
+
+  const advanceOrder = useCallback(
+    (id) => ubah(id, (o) => {
+      if (isFinished(o)) return null;
+      const step = nextStep(o);
+      return { lokal: { step }, kolom: { langkah: step } };
+    }),
+    [ubah]
   );
 
-  const advanceOrder = useCallback((id) => patch(id, (o) => (isFinished(o) ? {} : { step: nextStep(o) })), [patch]);
-  const revertOrder = useCallback((id) => patch(id, (o) => (o.step <= 0 ? {} : { step: prevStep(o) })), [patch]);
-  const setPaid = useCallback((id, paid) => patch(id, () => ({ paid })), [patch]);
+  const revertOrder = useCallback(
+    (id) => ubah(id, (o) => {
+      if (o.step <= 0) return null;
+      const step = prevStep(o);
+      return { lokal: { step }, kolom: { langkah: step } };
+    }),
+    [ubah]
+  );
+
+  const setPaid = useCallback(
+    (id, paid) => ubah(id, () => ({ lokal: { paid }, kolom: { lunas: paid } })),
+    [ubah]
+  );
 
   /** Admin mengisi berat/jumlah; total dihitung ulang dari harga satuan + ongkos jemput. */
-  const setWeight = useCallback((id, qty) => patch(id, (o) => {
-    const price = unitPriceOf(o);
-    if (price == null) return {};
-    return { price, qty, amount: `${formatQty(qty)} ${o.unit}`, total: computeTotal(price, qty, o.fee) };
-  }), [patch]);
+  const setWeight = useCallback(
+    (id, qty) => ubah(id, (o) => {
+      const price = unitPriceOf(o);
+      if (price == null) return null;
+      const total = computeTotal(price, qty, o.fee);
+      return {
+        lokal: { price, qty, amount: `${formatQty(qty)} ${o.unit}`, total },
+        kolom: { harga: price, qty, total },
+      };
+    }),
+    [ubah]
+  );
 
   const value = useMemo(
-    () => ({ orders, createOrder, advanceOrder, revertOrder, setPaid, setWeight }),
-    [orders, createOrder, advanceOrder, revertOrder, setPaid, setWeight]
+    () => ({ orders, memuat, refresh, createOrder, advanceOrder, revertOrder, setPaid, setWeight }),
+    [orders, memuat, refresh, createOrder, advanceOrder, revertOrder, setPaid, setWeight]
   );
   return <OrderContext.Provider value={value}>{children}</OrderContext.Provider>;
 }

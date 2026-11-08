@@ -23,6 +23,7 @@ export default function OrderFormScreen({ navigation, route }) {
   const [address, setAddress] = useState(primaryAddress?.detail || '');
   const [note, setNote] = useState('');
   const [addressError, setAddressError] = useState('');
+  const [menyimpan, setMenyimpan] = useState(false);
 
   // Layanan yang dinonaktifkan admin tidak bisa dipesan
   const service = services.find((s) => s.id === serviceId) || services[0];
@@ -36,13 +37,15 @@ export default function OrderFormScreen({ navigation, route }) {
     );
   }
 
-  const submit = () => {
+  const submit = async () => {
+    if (menyimpan) return;
     if (methodId === 'jemput' && address.trim().length < 10) {
       setAddressError('Alamat wajib diisi lengkap (minimal 10 karakter)');
       return;
     }
-    // TODO(backend): kirim pesanan ke API; pesanan langsung tampil di admin
-    createOrder({
+    setMenyimpan(true);
+    // Pesanan disimpan ke Supabase; pindah layar hanya bila berhasil (gagal -> Alert dari store)
+    const ok = await createOrder({
       customer: { id: user.id, name: user.name, phone: user.phone },
       service,
       method,
@@ -51,7 +54,8 @@ export default function OrderFormScreen({ navigation, route }) {
       note: note.trim(),
       paymentId,
     });
-    navigation.navigate('MainTabs', { screen: 'Pesanan' });
+    setMenyimpan(false);
+    if (ok) navigation.navigate('MainTabs', { screen: 'Pesanan' });
   };
 
   return (
@@ -59,7 +63,7 @@ export default function OrderFormScreen({ navigation, route }) {
       title="Buat pesanan"
       onBack={() => navigation.goBack()}
       keyboard
-      footer={<Button title="Pesan sekarang" icon="checkmark-circle-outline" onPress={submit} />}
+      footer={<Button title="Pesan sekarang" icon="checkmark-circle-outline" onPress={submit} loading={menyimpan} />}
     >
       <SectionHeader title="Layanan" size="md" style={{ marginTop: 4 }} />
       <ServiceSelector
