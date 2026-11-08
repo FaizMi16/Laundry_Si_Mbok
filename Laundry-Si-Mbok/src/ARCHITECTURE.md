@@ -71,7 +71,7 @@ Selesai ──▶ pindah dari "Pesanan" ke "Riwayat" milik user
 |---|---|---|
 | `AuthContext` | role, login/logout, profil admin | Login, Profil user & admin |
 | `OrderContext` | semua pesanan: `createOrder`, `advanceOrder`, `revertOrder`, `setPaid`, `useMyOrders(userId)` | user & admin |
-| `CatalogContext` | layanan: `saveService`, `toggleService`, `activeServices` | user & admin |
+| `CatalogContext` | layanan dari Supabase: `saveService`, `toggleService(service)`, `deleteService(service)`, `activeServices`, `memuat`, `refresh` | user & admin |
 | `UserContext` | profil, alamat, pembayaran (tetap khusus user) | user |
 
 Aturan alur ada di `utils/orders.js` (`nextStep`, `prevStep`, `nextActionLabel`, filter, ringkasan) agar user & admin
@@ -88,3 +88,11 @@ memakai logika yang sama. Cari `TODO(backend)` untuk titik sambung API.
 
 ## Akun admin (dummy)
 `admin@laundrysimbok.id` / `admin12345` — didefinisikan di `data/dummy.js` (`ADMIN_ACCOUNT`), hapus saat backend siap.
+
+## Katalog layanan di Supabase (modul Pertemuan 9)
+- `lib/supabase.js` — klien Supabase (Project URL + anon key). Jangan pernah menaruh `service_role` key di aplikasi.
+- Tabel `layanan` (`nama`, `harga`, `satuan`, `deskripsi`, `ikon`, `aktif`, `foto_url`) dan bucket Storage publik `layanan`; pemetaan snake_case -> camelCase hanya di `keService` pada `CatalogContext`.
+- Alur simpan dengan foto: upload -> insert/update baris -> hapus foto lama paling akhir (tidak ada baris tanpa foto, hanya kemungkinan file yatim).
+- Layar lain (Beranda, form pesanan, dashboard admin) tidak berubah karena tetap membaca `useCatalog()`.
+- Yang masih lokal: pesanan, pelanggan, alamat, pembayaran, autentikasi.
+- Kebijakan RLS di modul bersifat longgar (publik) dan hanya untuk praktikum.

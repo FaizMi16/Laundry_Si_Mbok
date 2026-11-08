@@ -9,12 +9,19 @@ export default function AdminServiceFormScreen({ navigation, route }) {
   const serviceId = route.params?.serviceId;
   const initial = serviceId ? services.find((s) => s.id === serviceId) : undefined;
 
-  // TODO(backend): POST/PATCH /services, lalu perbarui katalog dari response
-  const handleSubmit = (values) => {
-    saveService({ ...(initial ? { id: initial.id } : {}), ...values });
-    Alert.alert('Berhasil', initial ? 'Layanan sudah diperbarui.' : 'Layanan baru sudah ditambahkan.', [
-      { text: 'OK', onPress: () => navigation.goBack() },
-    ]);
+  // Async: tunggu Supabase selesai. Ikon & foto_url lama dibawa agar tidak kembali ke default.
+  const handleSubmit = async (values) => {
+    try {
+      await saveService({
+        ...(initial ? { id: initial.id, foto_url: initial.foto_url, icon: initial.icon } : {}),
+        ...values,
+      });
+      Alert.alert('Berhasil', initial ? 'Layanan sudah diperbarui.' : 'Layanan baru sudah ditambahkan.', [
+        { text: 'OK', onPress: () => navigation.goBack() },
+      ]);
+    } catch (e) {
+      Alert.alert('Gagal menyimpan', e.message);
+    }
   };
 
   return (
