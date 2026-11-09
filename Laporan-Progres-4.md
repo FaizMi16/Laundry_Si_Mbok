@@ -55,7 +55,7 @@ Katalog layanan dipindah dari data dummy ke Supabase
 
 - register, tambah alamat, dan buat pesanan
 
-  ![register & alamat](dokumentasi/register&alamat.gif)
+  ![register & alamat](dokumentasi/register&alamat2.gif)
   
   ![pesanan](dokumentasi/uji_pesanan.gif)
 
