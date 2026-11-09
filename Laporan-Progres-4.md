@@ -52,7 +52,9 @@ Katalog layanan dipindah dari data dummy ke Supabase
   ![tabel](dokumentasi/tabel_pesanan.png)
 
 - register, tambah alamat, dan buat pesanan
+
   ![register & alamat](dokumentasi/register&alamat.gif)
+  
   ![pesanan](dokumentasi/uji_pesanan.gif)
 
 - Admin memajukan status dan menandai lunas, perubahannya tersimpan
