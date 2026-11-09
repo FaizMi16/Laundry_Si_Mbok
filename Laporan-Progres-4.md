@@ -19,6 +19,8 @@ Katalog layanan dipindah dari data dummy ke Supabase
 
 ![tabel](dokumentasi/supabase_tabel_layanan.png)
 
+![tabel](dokumentasi/full_tabel.png)
+
 
 - Bucket `layanan` (Public)
   
