@@ -47,22 +47,16 @@ Katalog layanan dipindah dari data dummy ke Supabase
 
 ## Integrasi Supabase Tahap 2: Pelanggan, Alamat, Pesanan
 - Tabel `pelanggan`, `alamat`, `pesanan`
-  ![tabel](dokumentasi/tabel_pelanggan.png)
+  ![tabel](dokumentasi/tabel_register.png)
   ![tabel](dokumentasi/tabel_alamat.png)
   ![tabel](dokumentasi/tabel_pesanan.png)
 
-- Daftar, tambah alamat, dan buat pesanan dari aplikasi muncul di tabel
-  ![pesanan](dokumentasi/tahap2_pesanan.gif)
-  ![pesanan](dokumentasi/tahap2_pesanan.gif)
+- register, tambah alamat, dan buat pesanan
+  ![register & alamat](dokumentasi/register&alamat.gif)
+  ![pesanan](dokumentasi/uji_pesanan.gif)
 
 - Admin memajukan status dan menandai lunas, perubahannya tersimpan
 
-
-### Keputusan teknis
-- Ikon dan foto lama dibawa saat edit agar tidak kembali ke bawaan
-- Foto lama dihapus paling akhir setelah baris tersimpan
-- Pemetaan kolom database (nama, harga) ke field aplikasi (name, price)
-  hanya di satu tempat (`CatalogContext`)
 
 ### Yang masih lokal
 Login belum memakai Supabase Auth (admin masih dicek lokal).
