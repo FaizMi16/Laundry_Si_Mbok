@@ -54,19 +54,6 @@ export const SEED_ORDERS = [
   { id: 'LSM-0981', customer: C.budi, serviceId: 'setrika', service: 'Cuci + Setrika', qty: 3, unit: 'kg', amount: '3 kg', fee: 5000, total: 32000, step: 4, date: '24 Sep 2026', methodId: 'jemput', method: JEMPUT, address: 'Jl. Melati No. 12, RT 03/RW 05, Kebayoran Baru, Jakarta Selatan 12120', pickup: { date: '24 Sep', time: '08.00 – 10.00' }, note: '', paymentId: 'cash', paid: true },
 ];
 
-// ───────────────────────── Data admin (dummy) ─────────────────────────
-// Akun admin masuk lewat halaman Login yang sama dengan user.
-// TODO(backend): hapus kredensial ini; server yang menentukan role dari token/respons login.
-export const ADMIN_ACCOUNT = {
-  id: 'ADM-001',
-  name: 'Mbok Sari',
-  email: 'admin@laundrysimbok.id',
-  password: 'admin12345',
-  phone: '081200000001',
-  role: 'admin',
-  title: 'Pemilik & admin gerai',
-};
-
 // Filter daftar pesanan di admin
 export const ORDER_FILTERS = [
   { id: 'all', label: 'Semua' },

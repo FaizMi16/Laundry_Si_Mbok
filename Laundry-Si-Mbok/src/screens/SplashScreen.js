@@ -1,9 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Animated, Easing, StyleSheet } from 'react-native';
 import { AppText, Bubble, Logo } from '../components/atoms';
+import { useAuth } from '../store/AuthContext';
 import { GradientTemplate } from '../components/templates';
 
 export default function SplashScreen({ navigation }) {
+  const { loading, role } = useAuth();
+  const mulai = useRef(Date.now()).current;
   const scale = useRef(new Animated.Value(0.6)).current;
   const fade = useRef(new Animated.Value(0)).current;
   const slide = useRef(new Animated.Value(16)).current;
@@ -14,9 +17,15 @@ export default function SplashScreen({ navigation }) {
       Animated.timing(fade, { toValue: 1, duration: 700, easing: Easing.out(Easing.quad), useNativeDriver: true }),
       Animated.timing(slide, { toValue: 0, duration: 700, useNativeDriver: true }),
     ]).start();
-    const t = setTimeout(() => navigation.replace('Onboarding'), 2000);
-    return () => clearTimeout(t);
   }, []);
+
+  // Tunggu sesi tersimpan selesai dipulihkan: sudah login -> langsung ke beranda sesuai role.
+  useEffect(() => {
+    if (loading) return undefined;
+    const tujuan = role === 'admin' ? 'AdminTabs' : role === 'user' ? 'MainTabs' : 'Onboarding';
+    const t = setTimeout(() => navigation.replace(tujuan), Math.max(0, 2000 - (Date.now() - mulai)));
+    return () => clearTimeout(t);
+  }, [loading, role]);
 
   return (
     <GradientTemplate style={styles.container}>

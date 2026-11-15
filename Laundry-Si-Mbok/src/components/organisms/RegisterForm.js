@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { AppText, Button, TextButton } from '../atoms';
-import { CheckboxField, FormField } from '../molecules';
+import { CheckboxField, FormField, GoogleSection } from '../molecules';
 import {
   validateRequired, validatePhone, validateEmail, compact, hasErrors,
 } from '../../utils/validators';
 
-/** Props: onSubmit({name, phone, email, password}), onLogin */
-export default function RegisterForm({ onSubmit, onLogin }) {
+/** Props: onSubmit({name, phone, email, password}), onLogin, onGoogle, googleLoading */
+export default function RegisterForm({ onSubmit, onLogin, onGoogle, googleLoading }) {
   const [form, setForm] = useState({ name: '', phone: '', email: '', password: '', confirm: '' });
   const [agree, setAgree] = useState(false);
   const [errors, setErrors] = useState({});
@@ -56,6 +56,8 @@ export default function RegisterForm({ onSubmit, onLogin }) {
       </CheckboxField>
 
       <Button title="Daftar" onPress={submit} />
+
+      {onGoogle ? <GoogleSection title="Daftar dengan Google" onPress={onGoogle} loading={googleLoading} /> : null}
 
       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 24 }}>
         <AppText variant="body" color="muted">Sudah punya akun? </AppText>

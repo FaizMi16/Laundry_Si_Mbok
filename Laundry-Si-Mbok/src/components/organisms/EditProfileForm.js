@@ -33,7 +33,7 @@ export default function EditProfileForm({ initial, onSubmit }) {
 
       <FormField label="Nama lengkap" icon="person-outline" placeholder="Nama kamu" value={form.name} onChangeText={set('name')} error={errors.name} />
       <FormField label="Nomor HP" icon="call-outline" placeholder="08xxxxxxxxxx" keyboardType="phone-pad" value={form.phone} onChangeText={set('phone')} error={errors.phone} />
-      <FormField label="Email" icon="mail-outline" placeholder="nama@email.com" keyboardType="email-address" autoCapitalize="none" value={form.email} onChangeText={set('email')} error={errors.email} />
+      <FormField label="Email" icon="mail-outline" placeholder="nama@email.com" keyboardType="email-address" autoCapitalize="none" value={form.email} editable={false} error={errors.email} />
 
       <Button title="Simpan perubahan" icon="checkmark-circle-outline" onPress={submit} style={{ marginTop: 8 }} />
     </View>

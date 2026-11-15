@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { AppText, Button, TextButton } from '../atoms';
-import { FormField } from '../molecules';
+import { FormField, GoogleSection } from '../molecules';
 import { validateEmail, validatePassword, compact, hasErrors } from '../../utils/validators';
 
-/** Props: onSubmit({email, password}), onForgotPassword, onRegister */
-export default function LoginForm({ onSubmit, onForgotPassword, onRegister }) {
+/** Props: onSubmit({email, password}), onForgotPassword, onRegister, onGoogle, googleLoading */
+export default function LoginForm({ onSubmit, onForgotPassword, onRegister, onGoogle, googleLoading }) {
   const [form, setForm] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
 
@@ -40,6 +40,8 @@ export default function LoginForm({ onSubmit, onForgotPassword, onRegister }) {
       <TextButton label="Lupa kata sandi?" onPress={onForgotPassword} style={{ alignSelf: 'flex-end', marginBottom: 20, marginTop: -4 }} />
 
       <Button title="Masuk" onPress={submit} />
+
+      {onGoogle ? <GoogleSection title="Masuk dengan Google" onPress={onGoogle} loading={googleLoading} /> : null}
 
       <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 24 }}>
         <AppText variant="body" color="muted">Belum punya akun? </AppText>

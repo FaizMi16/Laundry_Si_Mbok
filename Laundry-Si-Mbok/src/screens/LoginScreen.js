@@ -1,33 +1,47 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Alert } from 'react-native';
 import { useAuth } from '../store/AuthContext';
-import { useUser } from '../store/UserContext';
 import { BrandHeader, LoginForm } from '../components/organisms';
 import { AuthSheetTemplate } from '../components/templates';
 
 export default function LoginScreen({ navigation }) {
-  const { login, logout } = useAuth();
-  const { masuk } = useUser();
+  const { login, masukGoogle } = useAuth();
   const sibuk = useRef(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
-  // Admin masih dicek lokal. Pelanggan dimuat dari Supabase (email belum terdaftar -> akun demo).
-  // TODO(auth): ganti dengan Supabase Auth; role (user/admin) ditentukan server
+  const keBeranda = (role) => navigation.replace(role === 'admin' ? 'AdminTabs' : 'MainTabs');
+
+  // Supabase Auth memverifikasi email + kata sandi; role (user/admin) datang dari database.
   const handleSubmit = async (credentials) => {
     if (sibuk.current) return;
     sibuk.current = true;
     try {
-      const result = login(credentials);
+      const result = await login(credentials);
       if (!result.ok) {
         Alert.alert('Gagal masuk', result.error);
         return;
       }
-      if (result.role === 'user' && !(await masuk(credentials.email))) {
-        logout(); // pesan error sudah ditampilkan oleh store
-        return;
-      }
-      navigation.replace(result.role === 'admin' ? 'AdminTabs' : 'MainTabs');
+      keBeranda(result.role);
     } finally {
       sibuk.current = false;
+    }
+  };
+
+  // Google OAuth: akun baru otomatis dibuatkan profil pelanggan; role tetap dari database.
+  const handleGoogle = async () => {
+    if (sibuk.current) return;
+    sibuk.current = true;
+    setGoogleLoading(true);
+    try {
+      const result = await masukGoogle();
+      if (!result.ok) {
+        Alert.alert('Gagal masuk dengan Google', result.error);
+        return;
+      }
+      keBeranda(result.role);
+    } finally {
+      sibuk.current = false;
+      setGoogleLoading(false);
     }
   };
 
@@ -35,10 +49,10 @@ export default function LoginScreen({ navigation }) {
     <AuthSheetTemplate header={<BrandHeader />}>
       <LoginForm
         onSubmit={handleSubmit}
-        onForgotPassword={() =>
-          Alert.alert('Segera hadir', 'Pemulihan kata sandi akan tersedia setelah aplikasi terhubung ke server.')
-        }
+        onForgotPassword={() => navigation.navigate('LupaKataSandi')}
         onRegister={() => navigation.navigate('Register')}
+        onGoogle={handleGoogle}
+        googleLoading={googleLoading}
       />
     </AuthSheetTemplate>
   );

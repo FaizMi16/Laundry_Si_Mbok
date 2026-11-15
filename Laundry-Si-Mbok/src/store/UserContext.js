@@ -1,18 +1,17 @@
-import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import { useAuth } from './AuthContext';
 import { MONTHS_ID } from '../utils/format';
 import { laporGagal } from '../utils/laporGagal';
 
 /**
- * Data pelanggan yang sedang masuk (sumber: tabel `pelanggan` + `alamat` di Supabase).
- * Belum ada login sungguhan: masuk() mencari pelanggan dari email; email yang belum terdaftar
- * memakai akun demo (perilaku lama aplikasi). Semua action async dan TIDAK melempar error:
+ * Data pelanggan yang sedang masuk (sumber: tabel `pengguna` + `alamat` di Supabase).
+ * Login/daftar ditangani AuthContext (Supabase Auth); store ini memuat data akun begitu sesi user aktif
+ * dan mengosongkannya saat keluar. Semua action async dan TIDAK melempar error:
  * bila gagal, Alert ditampilkan di sini dan hasilnya `false`.
- * TODO(auth): ganti masuk()/daftar() dengan Supabase Auth, lalu kunci RLS per pengguna.
  */
 const UserContext = createContext(null);
 
-export const DEMO_ID = 'USR-001';
 const NOTIF_AWAL = { orderStatus: true, reminder: true, promo: true, email: false };
 const GUEST = { id: '', name: '', email: '', phone: '', memberSince: '', points: 0 };
 
@@ -87,41 +86,36 @@ export function UserProvider({ children }) {
     setAddresses((await muatAlamat(row.id)) ?? []);
   }, [muatAlamat]);
 
-  /** Masuk sebagai pelanggan dengan email ini; email belum terdaftar -> akun demo (USR-001). */
-  const masuk = useCallback(async (email) => {
-    const cari = (kolom, nilai) => supabase.from('pelanggan').select('*').eq(kolom, nilai).maybeSingle();
-    let { data, error } = await cari('email', email.trim().toLowerCase());
-    if (!error && !data) ({ data, error } = await cari('id', DEMO_ID));
-    if (error) { laporGagal('Gagal masuk', error); return false; }
-    if (!data) {
-      laporGagal('Gagal masuk', { message: 'Data pelanggan belum ada di database. Jalankan SQL tahap 2 di Supabase.' });
-      return false;
+  // Muat data pelanggan (akun + alamat) setiap sesi Supabase Auth berganti; kosongkan saat keluar / admin.
+  const { profil } = useAuth();
+  useEffect(() => {
+    if (profil?.role !== 'user') {
+      userIdRef.current = '';
+      setUser(GUEST);
+      setAddresses([]);
+      setPaymentIdState('cash');
+      setNotifications(NOTIF_AWAL);
+      return undefined;
     }
-    await bukaPelanggan(data);
-    return true;
-  }, [bukaPelanggan]);
-
-  /** Buat pelanggan baru lalu langsung masuk sebagai pelanggan itu. */
-  const daftar = useCallback(async ({ name, phone, email }) => {
-    const { data, error } = await supabase
-      .from('pelanggan')
-      .insert({ nama: name.trim(), telepon: phone.trim(), email: email.trim().toLowerCase() })
-      .select('*').single();
-    if (error) {
-      laporGagal('Gagal mendaftar', error.code === '23505' ? { message: 'Email ini sudah terdaftar. Silakan masuk.' } : error);
-      return false;
-    }
-    await bukaPelanggan(data);
-    return true;
-  }, [bukaPelanggan]);
+    let aktif = true;
+    (async () => {
+      const { data, error } = await supabase.from('pengguna').select('*').eq('id', profil.id).maybeSingle();
+      if (!aktif) return;
+      if (error || !data) {
+        laporGagal('Gagal memuat akun', error ?? { message: 'Data akun belum ada di database.' });
+        return;
+      }
+      await bukaPelanggan(data);
+    })();
+    return () => { aktif = false; };
+  }, [profil?.id, profil?.role, bukaPelanggan]);
 
   const updateUser = useCallback(async (patch) => {
     const kolom = {};
-    const lokal = { ...patch };
+    const { email, ...lokal } = patch; // email = identitas login (Supabase Auth): tidak diubah dari sini
     if (patch.name !== undefined) kolom.nama = patch.name;
     if (patch.phone !== undefined) kolom.telepon = patch.phone;
-    if (patch.email !== undefined) { lokal.email = patch.email.toLowerCase(); kolom.email = lokal.email; }
-    const { error } = await supabase.from('pelanggan').update(kolom).eq('id', userIdRef.current);
+    const { error } = await supabase.from('pengguna').update(kolom).eq('id', userIdRef.current);
     if (error) {
       laporGagal('Gagal menyimpan profil', error.code === '23505' ? { message: 'Email ini sudah dipakai pelanggan lain.' } : error);
       return false;
@@ -177,7 +171,7 @@ export function UserProvider({ children }) {
   const setPaymentId = useCallback(async (id) => {
     const lama = paymentRef.current;
     setPaymentIdState(id);
-    const { error } = await supabase.from('pelanggan').update({ pembayaran_id: id }).eq('id', userIdRef.current);
+    const { error } = await supabase.from('pengguna').update({ pembayaran_id: id }).eq('id', userIdRef.current);
     if (error) {
       laporGagal('Gagal menyimpan metode pembayaran', error);
       setPaymentIdState(lama);
@@ -190,7 +184,7 @@ export function UserProvider({ children }) {
     const lama = notifRef.current;
     const baru = { ...lama, [key]: value };
     setNotifications(baru);
-    const { error } = await supabase.from('pelanggan').update({ notif: baru }).eq('id', userIdRef.current);
+    const { error } = await supabase.from('pengguna').update({ notif: baru }).eq('id', userIdRef.current);
     if (error) {
       laporGagal('Gagal menyimpan pengaturan notifikasi', error);
       setNotifications(lama);
@@ -206,8 +200,6 @@ export function UserProvider({ children }) {
       primaryAddress: addresses.find((a) => a.isPrimary) || null,
       paymentId,
       notifications,
-      masuk,
-      daftar,
       updateUser,
       saveAddress,
       removeAddress,
@@ -215,7 +207,7 @@ export function UserProvider({ children }) {
       setPaymentId,
       setNotification,
     }),
-    [user, addresses, paymentId, notifications, masuk, daftar, updateUser, saveAddress, removeAddress, setPrimaryAddress, setPaymentId, setNotification]
+    [user, addresses, paymentId, notifications, updateUser, saveAddress, removeAddress, setPrimaryAddress, setPaymentId, setNotification]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

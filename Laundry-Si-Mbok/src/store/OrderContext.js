@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { AppState } from 'react-native';
 import { supabase } from '../lib/supabase';
+import { useAuth } from './AuthContext';
 import { formatDateID } from '../utils/format';
 import { laporGagal } from '../utils/laporGagal';
 import { computeTotal, formatQty, isFinished, nextStep, prevStep, unitPriceOf } from '../utils/orders';
@@ -15,7 +16,7 @@ import { computeTotal, formatQty, isFinished, nextStep, prevStep, unitPriceOf } 
  */
 const OrderContext = createContext(null);
 
-const SELECT = '*, pelanggan(id, nama, telepon)';
+const SELECT = '*, pengguna(id, nama, telepon)';
 
 const angka = (v) => (v == null ? null : Number(v));
 
@@ -31,9 +32,9 @@ export const keOrder = (row) => {
   return {
     id: row.id,
     customer: {
-      id: row.pelanggan?.id ?? row.pelanggan_id,
-      name: row.pelanggan?.nama ?? '',
-      phone: row.pelanggan?.telepon ?? '',
+      id: row.pengguna?.id ?? row.pelanggan_id,
+      name: row.pengguna?.nama ?? '',
+      phone: row.pengguna?.telepon ?? '',
     },
     serviceId: row.layanan_id,
     service: row.layanan_nama,
@@ -58,6 +59,7 @@ export const keOrder = (row) => {
 export function OrderProvider({ children }) {
   const [orders, setOrders] = useState([]);
   const [memuat, setMemuat] = useState(true);
+  const { profil } = useAuth();
   const ordersRef = useRef(orders);
   ordersRef.current = orders;
 
@@ -68,13 +70,17 @@ export function OrderProvider({ children }) {
     setMemuat(false);
   }, []);
 
-  useEffect(() => { refresh(); }, [refresh]);
+  // RLS membatasi hasil per akun: pelanggan hanya pesanannya, admin semuanya. Muat ulang tiap sesi berganti.
+  useEffect(() => {
+    if (profil) refresh();
+    else { setOrders([]); setMemuat(false); }
+  }, [profil?.id, refresh]);
 
   // Admin & pelanggan memakai perangkat berbeda: muat ulang saat aplikasi kembali dibuka.
   useEffect(() => {
-    const sub = AppState.addEventListener('change', (state) => { if (state === 'active') refresh(); });
+    const sub = AppState.addEventListener('change', (state) => { if (state === 'active' && profil) refresh(); });
     return () => sub.remove();
-  }, [refresh]);
+  }, [refresh, profil]);
 
   const createOrder = useCallback(async ({ customer, service, qty, method, address, pickup, note, paymentId, total }) => {
     const { data, error } = await supabase

@@ -2,6 +2,7 @@
   "expo": {
     "name": "Laundry-Si-Mbok",
     "slug": "Laundry-Si-Mbok",
+    "scheme": "laundrysimbok",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

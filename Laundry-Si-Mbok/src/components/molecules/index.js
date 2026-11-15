@@ -5,6 +5,7 @@ export { default as CustomerRow } from './CustomerRow';
 export { default as EmptyState } from './EmptyState';
 export { default as FaqItem } from './FaqItem';
 export { default as FormField } from './FormField';
+export { default as GoogleSection } from './GoogleSection';
 export { default as GradientHeader } from './GradientHeader';
 export { default as InfoRow } from './InfoRow';
 export { default as MenuItem } from './MenuItem';

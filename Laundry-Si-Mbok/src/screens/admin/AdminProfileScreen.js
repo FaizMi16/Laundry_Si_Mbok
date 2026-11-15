@@ -22,9 +22,9 @@ export default function AdminProfileScreen({ navigation }) {
       {
         text: 'Keluar',
         style: 'destructive',
-        // TODO(backend): hapus token sesi sebelum reset navigasi
-        onPress: () => {
-          logout();
+        // hapus sesi Supabase dulu, baru reset navigasi
+        onPress: async () => {
+          await logout();
           navigation.getParent()?.reset({ index: 0, routes: [{ name: 'Login' }] });
         },
       },
