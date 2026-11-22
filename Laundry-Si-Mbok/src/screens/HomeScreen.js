@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCatalog } from '../store/CatalogContext';
 import { useMyOrders } from '../store/OrderContext';
 import { useUser } from '../store/UserContext';
 import { getFirstName } from '../utils/format';
 import { getRecommendedServices } from '../utils/recommender';
 import { SectionHeader } from '../components/molecules';
-import { CtaCard, HomeHeader, OrderCard, PromoBanner, ServiceGrid } from '../components/organisms';
+import { CtaCard, HomeHeader, OrderCard, PromoBanner, RecommendationCarousel, ServiceGrid } from '../components/organisms';
 import { HeroScrollTemplate } from '../components/templates';
 
 export default function HomeScreen({ navigation }) {
