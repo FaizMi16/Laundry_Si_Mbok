@@ -30,7 +30,7 @@ export default function HomeScreen({ navigation }) {
         {recommendedServices.length > 0 && (
         <View style={styles.recCarouselSection}>
           <View style={styles.recCarouselHeader}>
-            <SectionHeader title="Rekomendasi untukmu" />
+            <SectionHeader title="   Rekomendasi untukmu" />
           </View>
           <RecommendationCarousel
             services={recommendedServices}
