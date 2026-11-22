@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useCatalog } from '../store/CatalogContext';
 import { useMyOrders } from '../store/OrderContext';
 import { useUser } from '../store/UserContext';
 import { getFirstName } from '../utils/format';
+import { getRecommendedServices } from '../utils/recommender';
 import { SectionHeader } from '../components/molecules';
 import { CtaCard, HomeHeader, OrderCard, PromoBanner, ServiceGrid } from '../components/organisms';
 import { HeroScrollTemplate } from '../components/templates';
@@ -12,10 +13,29 @@ export default function HomeScreen({ navigation }) {
   const { user } = useUser();
   const { activeServices } = useCatalog();
   const { active } = useMyOrders(user.id);
+  const recommendedServices = useMemo(
+    () =>
+      getRecommendedServices({
+        services: activeServices,
+        orders: active,
+        userId: user?.id,
+        limit: 4,
+      }),
+    [activeServices, active, user?.id]
+  );
 
   return (
     <HeroScrollTemplate header={<HomeHeader firstName={getFirstName(user.name)} />}>
       <CtaCard onPress={() => navigation.navigate('Pemesanan')} />
+        {recommendedServices.length > 0 && (
+        <View style={styles.section}>
+          <SectionHeader title="Rekomendasi untukmu" />
+          <ServiceGrid
+            services={recommendedServices}
+            onSelect={(s) => navigation.navigate('Pemesanan', { serviceId: s.id })}
+          />
+        </View>
+      )}
 
       <View style={styles.section}>
         <SectionHeader title="Pilih layanan" />
