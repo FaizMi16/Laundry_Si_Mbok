@@ -19,7 +19,7 @@ export default function HomeScreen({ navigation }) {
         services: activeServices,
         orders: active,
         userId: user?.id,
-        limit: 4,
+        limit: 3,
       }),
     [activeServices, active, user?.id]
   );
@@ -28,9 +28,11 @@ export default function HomeScreen({ navigation }) {
     <HeroScrollTemplate header={<HomeHeader firstName={getFirstName(user.name)} />}>
       <CtaCard onPress={() => navigation.navigate('Pemesanan')} />
         {recommendedServices.length > 0 && (
-        <View style={styles.section}>
-          <SectionHeader title="Rekomendasi untukmu" />
-          <ServiceGrid
+        <View style={styles.recCarouselSection}>
+          <View style={styles.recCarouselHeader}>
+            <SectionHeader title="Rekomendasi untukmu" />
+          </View>
+          <RecommendationCarousel
             services={recommendedServices}
             onSelect={(s) => navigation.navigate('Pemesanan', { serviceId: s.id })}
           />

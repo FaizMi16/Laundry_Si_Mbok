@@ -29,6 +29,7 @@ export { default as OrderWeightCard } from './OrderWeightCard';
 export { default as PaymentMethodList } from './PaymentMethodList';
 export { default as ProfileHero } from './ProfileHero';
 export { default as PromoBanner } from './PromoBanner';
+export { default as RecommendationCarousel } from './RecommendationCarousel';
 export { default as RegisterForm } from './RegisterForm';
 export { default as SchedulePicker } from './SchedulePicker';
 export { default as ServiceAdminList } from './ServiceAdminList';
