@@ -8,7 +8,7 @@
 4. Mohammad Satria Dinilhaq (2488010064)
 
 ## Model AI On-Device di Aplikasi Mobile
-Laporan ini berfokus pada penerapan model dari Machine Learning ke Aplikasi mobile
+Laporan ini berfokus pada penerapan model dari Machine Learning ke Aplikasi mobile Laundry Si Mbok
 
 ### Hasil di aplikasi
 
